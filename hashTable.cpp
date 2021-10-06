@@ -9,6 +9,7 @@ class HashTable {
         list<pair<int, string>> table[hashGroups];
     public:
         bool isEmpty() const;
+        int convertToInt(string word);
         int hashFunction(int key);
         void insertItem(int key, string value);
         void removeItem(int key);
@@ -25,6 +26,13 @@ bool HashTable::isEmpty() const {
         return true;
     }
     return false;
+}
+int convertToInt(string word) {
+    int key = 0;
+    for (int i = 0; i < word.length(); i++) {
+        key += int(word[i]);
+    }
+    return key;
 }
 int HashTable::hashFunction(int key) {
     return key % hashGroups;
@@ -79,6 +87,8 @@ void HashTable::printTable() {
 
 int main() {
     HashTable HT;
+    string word, meaning;
+    int key;
 
     if (HT.isEmpty()) {
         cout << "Empty! " << endl;
@@ -86,7 +96,12 @@ int main() {
     else {
         cout << "Oh no! Not empty"<< endl;
     }
-    HT.insertItem(905, "Hehe");
+    cout << "Input word: ";
+    cin >> word;
+    cout << "Input meaning: ";
+    cin >> meaning;
+    key = convertToInt(word);
+    HT.insertItem(key, meaning);
     HT.insertItem(915, "Hehe1");
     HT.insertItem(105, "Hehe2");
     HT.insertItem(405, "Hehe3");
@@ -96,8 +111,8 @@ int main() {
 
     HT.printTable();
 
-    HT.removeItem(905);
-    HT.printTable();
+    // HT.removeItem(905);
+    // HT.printTable();
     return 0;
 }
 
