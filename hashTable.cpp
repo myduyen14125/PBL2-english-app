@@ -9,7 +9,7 @@ class HashTable {
         list<pair<int, string>> table[hashGroups];
     public:
         bool isEmpty() const;
-        int convertToInt(string word);
+        int genKey(string word);
         int hashFunction(int key);
         void insertItem(int key, string value);
         void removeItem(int key);
@@ -27,7 +27,7 @@ bool HashTable::isEmpty() const {
     }
     return false;
 }
-int convertToInt(string word) {
+int genKey(string word) {
     int key = 0;
     for (int i = 0; i < word.length(); i++) {
         key += int(word[i]);
@@ -89,18 +89,11 @@ int main() {
     HashTable HT;
     string word, meaning;
     int key;
-
-    if (HT.isEmpty()) {
-        cout << "Empty! " << endl;
-    }
-    else {
-        cout << "Oh no! Not empty"<< endl;
-    }
     cout << "Input word: ";
     cin >> word;
     cout << "Input meaning: ";
     cin >> meaning;
-    key = convertToInt(word);
+    key = genKey(word);
     HT.insertItem(key, meaning);
     HT.insertItem(915, "Hehe1");
     HT.insertItem(105, "Hehe2");

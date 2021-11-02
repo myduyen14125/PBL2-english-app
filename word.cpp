@@ -16,7 +16,7 @@ class Word {
         string eng;
         string type;
         string meaning;
-        WORD *pNext;
+        WORD *pNext = NULL;
     public: 
         Word(); //defaut destructor
         Word(string, string, string);
@@ -26,8 +26,7 @@ class Word {
         void inputWord(); //Nhap từ
         void display(); //Xuất từ 
 
-        int randomSpace(); //Random 1 vị trí bất kì trong 1 từ
-        int replaceSpace(char character[]);//Thay thế kí tự bằng space
+        void replaceSpace();//Thay thế kí tự bằng space
 
 };
 #endif
@@ -47,7 +46,6 @@ Word::Word(const Word &w) {
     eng = w.eng;
     type = w.type;
     meaning = w.meaning;
-    pNext = w.pNext;
 }
 
 void Word::inputWord() {
@@ -60,15 +58,22 @@ void Word::inputWord() {
     getline(cin, meaning);
 }
 void Word::display() {
-    cout << eng << ": (" << type << ") : " << meaning << endl;
+    cout << eng << " (" << type << ") : " << meaning << endl;
 }
-int Word::randomSpace() {
-    int length = eng.length();
-    return rand() % (length-1); //sources: https://www.cplusplus.com/reference/cstdlib/rand/
+
+void Word::replaceSpace() {
+    int x, length;
+    length = eng.length();
+    //Random 1 vị trí bất kì trong 1 từ
+    x = rand() % (length-1); //sources: https://www.cplusplus.com/reference/cstdlib/rand/
+    eng[x] = '_';
 }
+
 int main() {
     Word w;
     w.inputWord();
+    w.display();
+    w.replaceSpace();
     w.display();
     return 0;
 }

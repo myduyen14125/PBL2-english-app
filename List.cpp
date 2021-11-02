@@ -3,56 +3,39 @@
  
 using namespace std;
  
-typedef class node* Node;
-class node
-{
+typedef class node *Node;
+class node {
     private:
         int data;
         Node next;
         Node prev;
-    public:
-        node (int data, Node next, Node prev)
-        {
+    public: 
+        node(int data, Node next, Node prev) {
             this->data = data;
             this->next = next;
             this->prev = prev;
         }
- 
-        void setData (int data)
-        {
+        void setData(int data) {
             this->data = data;
         }
- 
-        int getData ()
-        {
+        int getData() {
             return data;
         }
- 
-        void setNext (Node next)
-        {
+        void setNext(Node next) {
             this->next = next;
         }
- 
-        Node getNext ()
-        {
+        Node getNext() {
             return next;
         }
- 
-        void setPrev (Node prev)
-        {
+        void setPrev(Node prev) {
             this->prev = prev;
         }
- 
-        Node getPrev ()
-        {
+        Node getPrev() {
             return prev;
         }
- 
-        void print ()
-        {
+        void print() {
             cout << getData() << endl;
         }
- 
         friend class linkedlist;
 };
  
