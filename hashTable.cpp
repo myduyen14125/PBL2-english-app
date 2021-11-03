@@ -1,13 +1,15 @@
 #include<iostream>
 #include<list>  //STL
+#include "word.cpp"
 #include<cstring>
 using namespace std;
 
 class HashTable {
     private: 
-        static const int hashGroups = 26;
-        list<pair<int, string>> table[hashGroups];
+        int hashGroups;
+        list<pair<int, string>> *table;
     public:
+        HashTable(int b = 7); //default constructor
         bool isEmpty() const;
         int genKey(string word);
         int hashFunction(int key);
@@ -16,6 +18,11 @@ class HashTable {
         string searchTable(int key);
         void printTable();
 };
+
+HashTable::HashTable(int b) {
+    this->hashGroups = b;
+    table = new list<pair<int, string>>[hashGroups];
+}
 
 bool HashTable::isEmpty() const {
     int sum{};
@@ -27,13 +34,8 @@ bool HashTable::isEmpty() const {
     }
     return false;
 }
-int genKey(string word) {
-    int key = 0;
-    for (int i = 0; i < word.length(); i++) {
-        key += int(word[i]);
-    }
-    return key;
-}
+
+
 int HashTable::hashFunction(int key) {
     return key % hashGroups;
 }
@@ -74,33 +76,29 @@ void HashTable::removeItem(int key) {
     return;
 }
 void HashTable::printTable() {
-    for (int i{}; i < hashGroups; i++) {
-        if (table[i].size() == 0) continue;
+    for (int i; i < hashGroups; i++) {
+        cout << i;
+        // if (table[i].size() == 0) continue;
 
+        
         auto bItr = table[i].begin();
         for (; bItr != table[i].end(); bItr++) {
-            cout << "[Info] key: " << bItr->first << " Value: " << bItr->second << endl;
+            cout << "---> key: " << bItr->first << " Value: " << bItr->second;
         }
+        cout << endl;
     }
     return;
 }
 
 int main() {
     HashTable HT;
-    string word, meaning;
-    int key;
-    cout << "Input word: ";
-    cin >> word;
-    cout << "Input meaning: ";
-    cin >> meaning;
-    key = genKey(word);
-    HT.insertItem(key, meaning);
-    HT.insertItem(915, "Hehe1");
-    HT.insertItem(105, "Hehe2");
-    HT.insertItem(405, "Hehe3");
-    HT.insertItem(968, "Hehe4");
-    HT.insertItem(368, "Hehe5");
-    HT.insertItem(247, "Hehe6");
+    int n;
+    cout << "Nhap so tu: "; cin >> n; 
+    for (int i = 0; i < n; i++) {
+        Word w;
+        w.inputWord();
+        HT.insertItem(w.genKey(), w.getEng());
+    }
 
     HT.printTable();
 
