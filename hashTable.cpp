@@ -7,21 +7,24 @@ using namespace std;
 class HashTable {
     private: 
         int hashGroups;
-        list<pair<int, string>> *table;
+        list<Word> *table;
     public:
         HashTable(int b = 7); //default constructor
+
         bool isEmpty() const;
-        int genKey(string word);
         int hashFunction(int key);
-        void insertItem(int key, string value);
+
+        void insertItem(Word w);
         void removeItem(int key);
         string searchTable(int key);
+
         void printTable();
+        friend void Word::display();
 };
 
 HashTable::HashTable(int b) {
     this->hashGroups = b;
-    table = new list<pair<int, string>>[hashGroups];
+    table = new list<Word>[hashGroups];
 }
 
 bool HashTable::isEmpty() const {
@@ -39,51 +42,28 @@ bool HashTable::isEmpty() const {
 int HashTable::hashFunction(int key) {
     return key % hashGroups;
 }
-void HashTable::insertItem(int key, string value) {
-    int hashValue = hashFunction(key);
-    auto& cell = table[hashValue];
-    auto bItr = begin(cell);
-    bool keyExists = false;
-    for (; bItr != end(cell); bItr++) {
-        if (bItr->first == key) {
-            keyExists = true; 
-            bItr->second = value;
-            cout << "[Warn] - Key exist. Value replaced" << endl;
-            break;
-        }
-    }
-    if (!keyExists) {
-        cell.emplace_back(key, value);
-    }
-    return;
+void HashTable::insertItem(Word w) {
+    int index = hashFunction(w.genKey());
+    table[index].push_back(w);
 }
 void HashTable::removeItem(int key) {
-    int hashValue = hashFunction(key);
-    auto& cell = table[hashValue];
-    auto bItr = begin(cell);
-    bool keyExists = false;
-    for (; bItr != end(cell); bItr++) {
-        if (bItr->first == key) {
-            keyExists = true; 
-            bItr = cell.erase(bItr);
-            cout << "[Info] - Pair removed" << endl;
+    int index = hashFunction(key); //get the hash index of key 
+
+    //find the key in the index list 
+    list<Word>::iterator i;
+    for (i = table[index].begin(); i != table[index].end(); i++) {
+        if (i->genKey() == key)
             break;
-        }
-    }
-    if (!keyExists) {
-        cout << "[Warn] - Key not found. Pair not  removed" << endl;
-    }
-    return;
+    }    
+
 }
 void HashTable::printTable() {
     for (int i; i < hashGroups; i++) {
         cout << i;
-        // if (table[i].size() == 0) continue;
 
-        
-        auto bItr = table[i].begin();
-        for (; bItr != table[i].end(); bItr++) {
-            cout << "---> key: " << bItr->first << " Value: " << bItr->second;
+        for (auto x: table[i]) {
+            cout << "---> ";
+            x.display();
         }
         cout << endl;
     }
@@ -97,9 +77,11 @@ int main() {
     for (int i = 0; i < n; i++) {
         Word w;
         w.inputWord();
-        HT.insertItem(w.genKey(), w.getEng());
+        HT.insertItem(w);
+        cout << "-----" << endl;
     }
 
+    //View dictionary
     HT.printTable();
 
     // HT.removeItem(905);

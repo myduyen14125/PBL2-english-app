@@ -62,8 +62,7 @@ void Word::inputWord() {
     getline(cin, meaning);
 }
 void Word::display() {
-    cout << eng << " (" << type << ") : " << meaning << endl;
-    
+    cout << eng << " (" << type << ") : " << meaning;
 }
 
 int Word::genKey() {
