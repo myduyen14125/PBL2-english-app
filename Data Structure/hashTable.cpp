@@ -60,7 +60,7 @@ void HashTable::removeItem(int key) {
 void HashTable::printTable() {
     for (int i; i < hashGroups; i++) {
         cout << i;
-
+		
         for (auto x: table[i]) {
             cout << "---> ";
             x.display();
