@@ -20,7 +20,7 @@ class Word {
         WORD *pNext = NULL;
     public: 
         Word(); //defaut destructor
-        Word(string, string, string);
+        Word(string, string, string, int);
         Word(const Word &);
         ~Word() {delete [] pNext;};
 
@@ -41,10 +41,11 @@ Word::Word() {
     string meaning = "xin chào";
     WORD *pNext = NULL;
 }
-Word::Word(string eng, string type, string meaning) {
+Word::Word(string eng, string type, string meaning, int key) {
     this->eng = eng;
     this->type = type; 
     this->meaning = meaning;
+    this->key = this->genKey();
 }
 Word::Word(const Word &w) {
     eng = w.eng;
@@ -62,7 +63,8 @@ void Word::inputWord() {
     getline(cin, meaning);
 }
 void Word::display() {
-    cout << eng << " (" << type << ") : " << meaning;
+    cout << genKey();
+    cout << ". "<< eng << " (" << type << ") : " << meaning;
 }
 
 int Word::genKey() {

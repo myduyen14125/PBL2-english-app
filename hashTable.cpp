@@ -9,6 +9,7 @@ class HashTable {
         int hashGroups;
         list<Word> *table;
     public:
+        friend class Word;
         HashTable(int b = 7); //default constructor
 
         bool isEmpty() const;
@@ -16,10 +17,10 @@ class HashTable {
 
         void insertItem(Word w);
         void removeItem(int key);
-        string searchTable(int key);
+        void searchTable(string eng);
 
+        void readFile();
         void printTable();
-        friend void Word::display();
 };
 
 HashTable::HashTable(int b) {
@@ -54,8 +55,11 @@ void HashTable::removeItem(int key) {
     for (i = table[index].begin(); i != table[index].end(); i++) {
         if (i->genKey() == key)
             break;
-    }    
-
+    } 
+    
+    // if key is found in hash table, remove it
+    if (i != table[index].end())
+        table[index].erase(i);
 }
 void HashTable::printTable() {
     for (int i; i < hashGroups; i++) {
@@ -70,22 +74,41 @@ void HashTable::printTable() {
     return;
 }
 
+int to_continue() {
+	char yes;
+	printf("\n\nPress y to continue!\nPress b to back to menu!\nPress any key to exit!\nInput: ");
+	fflush(stdin);
+	yes = getchar();
+	if (yes == 'y')
+		return 1;
+	if (yes == 'b')
+		return 2;
+}
+
 int main() {
     HashTable HT;
     int n;
-    cout << "Nhap so tu: "; cin >> n; 
+    cout << "Nhập số từ: "; cin >> n; 
     for (int i = 0; i < n; i++) {
         Word w;
         w.inputWord();
-        HT.insertItem(w);
+        HT.insertItem(w); //Chức năng chèn từ ở đây nè
         cout << "-----" << endl;
     }
 
     //View dictionary
     HT.printTable();
 
-    // HT.removeItem(905);
+    //Edit dictionany nè 
+    /*Chức năng xóa 1 từ trong từ điển nè, có chi Tòn xóa cmt để chạy nghe hhaha*/
+    // cout << "Nhập key của từ cần xóa: "; 
+    // int key; cin >> key;
+    // HT.removeItem(key);
+    // cout << "-----" << endl;
     // HT.printTable();
+
+    /*Play game qua class khác nè*/
+
     return 0;
 }
 

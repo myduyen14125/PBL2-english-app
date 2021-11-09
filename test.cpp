@@ -12,31 +12,14 @@ class Hash
 
 public:
     Hash(int V); // Constructor
-
-    // inserts a key into hash table
     void insertItem(int x);
-
-    // deletes a key from hash table
     void deleteItem(int key);
-
-    // hash function to map values to key
     int hashFunction(int x)
     {
         return (x % BUCKET);
     }
-
     void displayHash();
 };
-
-int convertWordToKey(string word)
-{
-    int key = 0;
-    for (int i = 0; i < word.length(); i++)
-    {
-        key += int(word[i]);
-    }
-    return key;
-}
 
 Hash::Hash(int b)
 {
@@ -85,26 +68,23 @@ void Hash::displayHash()
 int main()
 {   
     int size, a[1000]; 
+    Word w;
     cout << "Nhap so tu: "; 
         cin >> size;
-    
     for(int i = 0; i < size; i++) {
-        string s; 
-        cin >> s; 
-        a[i] = convertWordToKey(s);
+        w.inputWord();
+        a[i] = w.genKey();
         cout << a[i];
     }
+    cout << endl;
     // array that contains keys to be mapped
-    int n = sizeof(a) / sizeof(a[0]);
+    int n = size;
 
     // insert the keys into the hash table
-    Hash h(7); // 7 is count of buckets in
+    Hash h(8); // 7 is count of buckets in
                // hash table
     for (int i = 0; i < n; i++)
         h.insertItem(a[i]);
-
-    // delete 12 from hash table
-    h.deleteItem(12);
 
     // display the Hash table
     h.displayHash();
