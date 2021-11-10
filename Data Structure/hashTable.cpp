@@ -1,27 +1,8 @@
 #include<iostream>
-#include<list>  //STL
-#include "word.cpp"
+#include<list>  
+#include "hashTable.h"
 #include<cstring>
 using namespace std;
-
-class HashTable {
-    private: 
-        int hashGroups;
-        list<Word> *table;
-    public:
-        friend class Word;
-        HashTable(int b = 7); //default constructor
-
-        bool isEmpty() const;
-        int hashFunction(int key);
-
-        void insertItem(Word w);
-        void removeItem(int key);
-        void searchTable(string eng);
-
-        void readFile();
-        void printTable();
-};
 
 HashTable::HashTable(int b) {
     this->hashGroups = b;
@@ -81,8 +62,9 @@ int to_continue() {
 	yes = getchar();
 	if (yes == 'y')
 		return 1;
-	if (yes == 'b')
+	else if (yes == 'b')
 		return 2;
+    return 2;
 }
 
 int main() {
