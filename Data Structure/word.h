@@ -8,7 +8,7 @@ using namespace std;
 typedef class Word WORD;
 
 class Word {
-    private: 
+    public: 
         string eng;
         string type;
         string meaning;
