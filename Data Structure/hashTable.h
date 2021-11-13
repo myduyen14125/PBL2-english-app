@@ -8,6 +8,7 @@ class HashTable {
     private: 
         int hashGroups;
         list<Word> *table;
+        int wordCount;
     public:
         friend class Word;
         HashTable(int b = 7); //default constructor
@@ -19,7 +20,7 @@ class HashTable {
         void removeItem(int key);
         void searchTable(string eng);
 
-        void readFile();
+        bool readFile();
         void printTable();
 };
 

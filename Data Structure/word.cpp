@@ -24,15 +24,15 @@ Word::Word(const Word &w) {
     meaning = w.meaning;
 }
 
-// void Word::inputWord() {
-//     cout << "Nhập từ tiếng anh: "; 
-//     cin >> eng;
-//     cout << "Nhập loại từ: ";
-//     cin >> type;
-//     cout << "Nhập nghĩa: ";
-//     cin.ignore();
-//     getline(cin, meaning);
-// }
+void Word::inputWord() {
+    cout << "Nhập từ tiếng anh: "; 
+    cin >> eng;
+    cout << "Nhập loại từ: ";
+    cin >> type;
+    cout << "Nhập nghĩa: ";
+    cin.ignore();
+    getline(cin, meaning);
+}
 void Word::display() {
     cout << genKey();
     cout << ". "<< eng << " (" << type << ") : " << meaning;

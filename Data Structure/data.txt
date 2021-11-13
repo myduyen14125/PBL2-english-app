@@ -1,0 +1,7 @@
+multiplication      n       phép nhân
+numeric             adj     thuộc về số học
+operation           n       thao tác
+output              n       đầu ra
+perform             v       thực thi
+process             v/n     xử lý/bộ xử lý
+pulse               n       xung

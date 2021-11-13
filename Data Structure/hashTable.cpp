@@ -1,4 +1,5 @@
 #include<iostream>
+#include <fstream>
 #include<list>  
 #include "hashTable.h"
 #include<cstring>
@@ -42,6 +43,29 @@ void HashTable::removeItem(int key) {
     if (i != table[index].end())
         table[index].erase(i);
 }
+bool HashTable::readFile() {
+    ifstream FileIn;
+    FileIn.open("data.txt", ios_base::in);
+    int i = 0; 
+    if (FileIn.fail()) {
+        cout << "Data update failed!" << endl;
+        return false;
+    }
+    
+    while (!FileIn.eof()) {
+        Word w;
+        i++; 
+        FileIn >> w.eng;
+        FileIn >> w.type;
+        FileIn >> w.meaning;
+        //Tòn thêm FileIn ảnh vô đây hỉ
+        insertItem(w);
+        cout << "--------" << endl;
+    }
+    this->wordCount = i - 1;
+    FileIn.close();
+    return true;
+}
 void HashTable::printTable() {
     for (int i; i < hashGroups; i++) {
         cout << i;
@@ -65,33 +89,6 @@ int to_continue() {
 	else if (yes == 'b')
 		return 2;
     return 2;
-}
-
-int main() {
-    HashTable HT;
-    int n;
-    cout << "Nhập số từ: "; cin >> n; 
-    for (int i = 0; i < n; i++) {
-        Word w;
-        w.inputWord();
-        HT.insertItem(w); //Chức năng chèn từ ở đây nè
-        cout << "-----" << endl;
-    }
-
-    //View dictionary
-    HT.printTable();
-
-    //Edit dictionany nè 
-    /*Chức năng xóa 1 từ trong từ điển nè, có chi Tòn xóa cmt để chạy nghe hhaha*/
-    // cout << "Nhập key của từ cần xóa: "; 
-    // int key; cin >> key;
-    // HT.removeItem(key);
-    // cout << "-----" << endl;
-    // HT.printTable();
-
-    /*Play game qua class khác nè*/
-
-    return 0;
 }
 
 
