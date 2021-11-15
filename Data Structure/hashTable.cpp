@@ -60,7 +60,6 @@ bool HashTable::readFile() {
         FileIn >> w.meaning;
         //Tòn thêm FileIn ảnh vô đây hỉ
         insertItem(w);
-        cout << "--------" << endl;
     }
     this->wordCount = i - 1;
     FileIn.close();
@@ -68,8 +67,10 @@ bool HashTable::readFile() {
 }
 void HashTable::printTable() {
     for (int i; i < hashGroups; i++) {
-        cout << i;
-		
+        
+        if (table[i].size() == 0)  continue;
+		cout << i;
+        
         for (auto x: table[i]) {
             cout << "---> ";
             x.display();

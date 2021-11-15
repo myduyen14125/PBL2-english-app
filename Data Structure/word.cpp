@@ -6,24 +6,6 @@
 
 using namespace std;
 
-Word::Word() {
-    string eng = "hello";
-    string type = "verb";
-    string meaning = "xin chào";
-    WORD *pNext = NULL;
-}
-Word::Word(string eng, string type, string meaning, int key) {
-    this->eng = eng;
-    this->type = type; 
-    this->meaning = meaning;
-    this->key = this->genKey();
-}
-Word::Word(const Word &w) {
-    eng = w.eng;
-    type = w.type;
-    meaning = w.meaning;
-}
-
 void Word::inputWord() {
     cout << "Nhập từ tiếng anh: "; 
     cin >> eng;

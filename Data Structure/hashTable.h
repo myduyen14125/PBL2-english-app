@@ -11,7 +11,7 @@ class HashTable {
         int wordCount;
     public:
         friend class Word;
-        HashTable(int b = 7); //default constructor
+        HashTable(int b = 26); //default constructor
 
         bool isEmpty() const;
         int hashFunction(int key);
