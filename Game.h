@@ -4,6 +4,7 @@
 #include "Menu.h"
 #include "About.h"
 #include "View.h"
+#include "Edit.h"
 using namespace std;
 //int i = 0;
 //string s;

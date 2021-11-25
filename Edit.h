@@ -2,10 +2,10 @@
 #define EDIT_H
 
 #include "Hashtable.h"
+#include "View.h"
 
 using namespace sf;
 using namespace std;
-
 class EditDictionary :public ViewDictionary {
 	public:
 		EditDictionary();
@@ -13,3 +13,5 @@ class EditDictionary :public ViewDictionary {
 			
 };
 #endif
+
+

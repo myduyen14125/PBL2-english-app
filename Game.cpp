@@ -30,11 +30,17 @@ void Game::processEvents() {
 				window.close();
 				break;
 			case Event::KeyPressed:
-				if(checkOptions == 2 || checkOptions == 3)
+				if(checkOptions == 2)
 				{
 					keycode = event.key.code;
 					isKeyPressed = true;
 					checkOptions = view.handleView(window, keycode, isKeyPressed);
+				}
+				else if(checkOptions == 3)
+				{
+					keycode = event.key.code;
+					isKeyPressed = true;
+					checkOptions = edit.handleView(window, keycode, isKeyPressed);
 				}	
 				break;
 			case Event::KeyReleased:
