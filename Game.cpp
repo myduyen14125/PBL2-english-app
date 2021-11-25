@@ -9,6 +9,7 @@
 Menu menu(WIDTH, HEIGHT);
 About about(WIDTH, HEIGHT);
 ViewDictionary view;
+EditDictionary edit;
 Game::Game() : window(VideoMode(WIDTH, HEIGHT), "SFML Application")
 {
 		
@@ -29,7 +30,7 @@ void Game::processEvents() {
 				window.close();
 				break;
 			case Event::KeyPressed:
-				if(checkOptions == 2)
+				if(checkOptions == 2 || checkOptions == 3)
 				{
 					keycode = event.key.code;
 					isKeyPressed = true;
@@ -51,6 +52,9 @@ void Game::update() {
 	else if(checkOptions == 2) {
 		checkOptions = view.handleView(window, keycode, false);
 	}
+	else if(checkOptions == 3) {
+		checkOptions = edit.handleView(window, keycode, false);
+	}
 	else if(checkOptions == 6) {
 		checkOptions = about.handleAbout(window);
 	}
@@ -65,6 +69,9 @@ void Game::render() {
 	}
 	else if(checkOptions == 2) {
 		view.drawView(window);
+	}
+	else if(checkOptions == 3) {
+		edit.drawView(window);
 	}
 	else if(checkOptions == 6){
 		about.drawAbout(window);

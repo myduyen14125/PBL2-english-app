@@ -7,7 +7,7 @@ using namespace sf;
 using namespace std;
 #define MAX_NUMBER_OF_ITEMS 7
 class ViewDictionary {
-	private:
+	protected:
 		int indexRectangle = 0, countReadWord = 0;
 		Font font[4];
 		Texture backgroundView, image[MAX_NUMBER_OF_ITEMS], loa[MAX_NUMBER_OF_ITEMS], button, buttonHover, arrow, arrowHover;;

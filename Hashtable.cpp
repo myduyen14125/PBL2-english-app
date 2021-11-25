@@ -17,7 +17,7 @@ HashTable::~HashTable() {
 }
 void HashTable::readFile() {
 	ifstream FileIn;
-    FileIn.open("F:\\PBl2\\data.txt", ios_base::in);
+    FileIn.open("E:\\PBL2-english-app\\data.txt", ios_base::in);
     if (FileIn.fail()) {
         cout << "Data update failed!" << endl;
     }
@@ -36,7 +36,7 @@ void HashTable::readFile() {
 void HashTable::updateFile() {
 	int i = 0;
 	ofstream FileOut;
-	FileOut.open("F:\\PBl2\\data.txt", ios::out);
+	FileOut.open("E:\\PBL2-english-app\\data.txt", ios::out);
 	while(i < hashGroups)
 	{
 		Word *run = table[i];
