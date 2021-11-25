@@ -4,11 +4,11 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = Game.o main.o Menu.o
-LINKOBJ  = Game.o main.o Menu.o
-LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -L"E:/SFML-2.4.2/lib" -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
-INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"E:/SFML-2.4.2/include"
-CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"E:/SFML-2.4.2/include"
+OBJ      = Game.o main.o Menu.o About.o Edit.o View.o Hashtable.o
+LINKOBJ  = Game.o main.o Menu.o About.o Edit.o View.o Hashtable.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -L"F:/SFML-2.4.2/lib" -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"F:/SFML-2.4.2/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"F:/SFML-2.4.2/include"
 BIN      = DemoGiaodien.exe
 CXXFLAGS = $(CXXINCS) -std=c++11
 CFLAGS   = $(INCS) -std=c++11
@@ -32,3 +32,15 @@ main.o: main.cpp
 
 Menu.o: Menu.cpp
 	$(CPP) -c Menu.cpp -o Menu.o $(CXXFLAGS)
+
+About.o: About.cpp
+	$(CPP) -c About.cpp -o About.o $(CXXFLAGS)
+
+Edit.o: Edit.cpp
+	$(CPP) -c Edit.cpp -o Edit.o $(CXXFLAGS)
+
+View.o: View.cpp
+	$(CPP) -c View.cpp -o View.o $(CXXFLAGS)
+
+Hashtable.o: Hashtable.cpp
+	$(CPP) -c Hashtable.cpp -o Hashtable.o $(CXXFLAGS)

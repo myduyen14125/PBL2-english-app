@@ -11,24 +11,26 @@
 #define MAX_NUMBER_OF_ITEMS 7
 
 using namespace sf;
-class Menu{
+class Menu {
 	private:
 		Font font[4];
-		Text about[MAX_NUMBER_OF_ITEMS];
-		Texture background, backgroundAbout, logo;
-		Sprite spriteBackground, spriteBackgroundAbout, spriteLogo;
-	public:
-		Music music;
 		Text menu[MAX_NUMBER_OF_ITEMS];
+		
+		Texture background, button, buttonHover, aboutImage, aboutImageHover;
+		Sprite spriteBackground, spriteAbout;
 		RectangleShape rectangle[MAX_NUMBER_OF_ITEMS];
-		Texture button, buttonHover, aboutImage, arrow, arrowHover;
-		Sprite spriteAbout, spriteArrow;
+		
 	public:
-		Menu(){}
-		Menu(float width, float height, Color color);
-		void loadResource();
+		Menu();
 		~Menu();
-		void draw(RenderWindow &window);
-		void drawAbout(RenderWindow &window);
+		Menu(const float &WIDTH, const float &HEIGHT);
+		
+		void loadFont();
+		void loadTexture();
+		void setSprite();
+		void loadResource();
+		
+		int handleMenu(RenderWindow &window);
+		void drawMenu(RenderWindow &window);
 };
 #endif

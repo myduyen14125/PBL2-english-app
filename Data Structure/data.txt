@@ -1,7 +1,0 @@
-multiplication      n       phepnhan
-numeric             adj     thuocvesohoc
-operation           n       thaotac
-output              n       daura
-perform             v       thucthi
-process             v/n     xuly
-pulse               n       xung
