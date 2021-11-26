@@ -1,17 +1,13 @@
 #include"Game.h"
 
-#define WIDTH 900
-#define HEIGHT 900
 
 #define HOVER true
 #define NO_HOVER false 
 
-Menu menu(WIDTH, HEIGHT);
-About about(WIDTH, HEIGHT);
-ViewDictionary view;
-Game::Game() : window(VideoMode(WIDTH, HEIGHT), "SFML Application")
+
+Game::Game() : window(VideoMode(WIDTH, HEIGHT), "Hoc tu vung tieng anh")
 {
-		
+
 }
 void Game::run() {
 	while(window.isOpen()) {
@@ -27,11 +23,14 @@ void Game::processEvents() {
 		{
 			case Event::Closed:
 				window.close();
-				break;
+				return;
 			case Event::KeyPressed:
-				if(checkOptions == 2)
-				{
-					keycode = event.key.code;
+				keycode = event.key.code;
+				if(checkOptions == 1) {
+					isKeyPressed = true;
+					checkOptions = play.handlePlay(window, keycode, isKeyPressed);
+				}
+				if(checkOptions == 2) {
 					isKeyPressed = true;
 					checkOptions = view.handleView(window, keycode, isKeyPressed);
 				}	
@@ -45,8 +44,8 @@ void Game::processEvents() {
 }
 void Game::update() {
 	if(checkOptions == 0) 		checkOptions = menu.handleMenu(window);
-	else if(checkOptions==1){
-		
+	else if(checkOptions == 1){
+		checkOptions = play.handlePlay(window, keycode, false);
 	}
 	else if(checkOptions == 2) {
 		checkOptions = view.handleView(window, keycode, false);
@@ -62,6 +61,7 @@ void Game::render() {
 	}
 	else if(checkOptions == 1)
 	{
+		play.drawPlay(window);
 	}
 	else if(checkOptions == 2) {
 		view.drawView(window);

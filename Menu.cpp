@@ -3,7 +3,8 @@
 #include"Menu.h"
 
 using namespace std;
-
+const int WIDTH  = 900;
+const int HEIGHT = 900;
 void Menu::loadFont() {
 	font[0].loadFromFile("Resource/Font/BungeeShade.ttf");
 	font[1].loadFromFile("Resource/Font/MATURASC.ttf");
@@ -31,7 +32,7 @@ void Menu::loadResource(){
 	loadTexture();
 	setSprite();
 }
-Menu::Menu(const float &WIDTH, const float &HEIGHT){
+Menu::Menu() {
 	loadResource();
 	// Menu Game
 	menu[0].setString("ToD English Game !");

@@ -1,5 +1,14 @@
 #include "About.h"
 
+#include<SFML/Graphics.hpp>
+#include<SFML/Window.hpp>
+#include<SFML/Audio.hpp>
+#include<iostream>
+#include<windows.h>
+#include<string.h>
+
+const int WIDTH  = 900;
+const int HEIGHT = 900;
 void About::loadFont() {
 	font[0].loadFromFile("Resource/Font/BungeeShade.ttf");
 	font[1].loadFromFile("Resource/Font/MATURASC.ttf");
@@ -16,12 +25,13 @@ void About::loadTexture() {
 
 void About::setSprite() {
 	spriteBackgroundAbout.setTexture(backgroundAbout);
-	spriteLogo.setTexture(logo);
-	spriteArrow.setTexture(arrow);
-	
 	spriteBackgroundAbout.setScale(1.6,1.2);
+	
+	spriteLogo.setTexture(logo);
 	spriteLogo.setScale(0.2,0.2);
 	spriteLogo.setPosition(350, 220);
+	
+	spriteArrow.setTexture(arrow);
 	spriteArrow.setScale(0.1,0.1);
 	spriteArrow.setPosition(5,5);
 }
@@ -32,7 +42,7 @@ void About::loadResource(){
 	setSprite();
 }
 
-About::About(const float &WIDTH, const float &HEIGHT) {
+About::About() {
 	loadResource();
 	// About
 	about[0].setString("TRUONG DAI HOC BACH KHOA");
@@ -43,13 +53,13 @@ About::About(const float &WIDTH, const float &HEIGHT) {
 	about[5].setString("NGUYEN PHUOC DAI TOAN - 102200035");
 	about[6].setString("Giang vien huong dan: LE THI MY HANH");
 	
-	about[0].setFont(font[3]); 
+	about[0].setFont(font[3]); // font[3]
 	about[0].setFillColor(Color::Black);
 	about[0].setCharacterSize(50);
 	about[0].setPosition(Vector2f(WIDTH/2-340, HEIGHT/7-50));
 	FloatRect rect;
 	for(int i=1;i<=6;i++){
-		about[i].setFont(font[2]);
+		about[i].setFont(font[2]); // font[2]
 		about[i].setCharacterSize(35);
 		about[i].setFillColor(Color::Black);
 		rect = about[i].getLocalBounds();
@@ -87,7 +97,6 @@ void About::drawAbout(RenderWindow &window) {
 	window.draw(spriteBackgroundAbout);
 	window.draw(spriteLogo);
 	window.draw(spriteArrow);
-	
     int R, G, B;
     srand(time(NULL));
 	for(int i=0;i<7;i++){

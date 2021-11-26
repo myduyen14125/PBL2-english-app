@@ -1,16 +1,8 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include<SFML/Graphics.hpp>
-#include<SFML/Window.hpp>
-#include<SFML/Audio.hpp>
-#include<windows.h>
-#include<iostream>
-#include<string>
+#include "library.h"
 
-#define MAX_NUMBER_OF_ITEMS 7
-
-using namespace sf;
 class Menu {
 	private:
 		Font font[4];
@@ -23,7 +15,6 @@ class Menu {
 	public:
 		Menu();
 		~Menu();
-		Menu(const float &WIDTH, const float &HEIGHT);
 		
 		void loadFont();
 		void loadTexture();

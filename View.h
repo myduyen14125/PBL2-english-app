@@ -1,18 +1,18 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-#include "Hashtable.h"
+#include "library.h"
 
-using namespace sf;
-using namespace std;
-#define MAX_NUMBER_OF_ITEMS 7
 class ViewDictionary {
 	private:
+		HashTable hashtable;
 		int indexRectangle = 0, countReadWord = 0;
 		Font font[4];
-		Texture backgroundView, image[MAX_NUMBER_OF_ITEMS], loa[MAX_NUMBER_OF_ITEMS], button, buttonHover, arrow, arrowHover;;
+		Texture image[MAX_NUMBER_OF_ITEMS], loa[MAX_NUMBER_OF_ITEMS];
+		Texture backgroundView, button, buttonHover, arrow, arrowHover, loaHover;
 		Sprite spriteBackgroundView, spriteImage[MAX_NUMBER_OF_ITEMS], spriteLoa[MAX_NUMBER_OF_ITEMS], spriteArrow;
 		Text head, searchWord, eng[MAX_NUMBER_OF_ITEMS], type[MAX_NUMBER_OF_ITEMS], meaning[MAX_NUMBER_OF_ITEMS];
+		Music music;
 		Clock clock;
 		Time time;
 		RectangleShape marker,  rectangle; // rectangle de noi bat dong chu dang tro den

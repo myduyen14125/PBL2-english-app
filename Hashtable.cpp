@@ -1,8 +1,6 @@
-#include<iostream>
 #include <fstream>
-#include "hashTable.h"
 #include <iomanip>
-#include<string.h>
+#include "hashTable.h"
 
 using namespace std;
 
@@ -262,17 +260,18 @@ void HashTable::searchTable(string word, Text tiengAnh[], Text tuLoai[], Text ng
 					break;
 				}
 			}
+			run = table[key];
 		}
 		else {
 			while(run != nullptr && run->eng < word) {
 				run = run->right;
 			}
-			if(run == nullptr) {
+			if(table[key] == nullptr) {
 				while(run == nullptr) {
 					key++;
 					if(key > 25)	break;
-					run = table[key];
 				}
+				run = table[key];
 			}
 		}
 	}
@@ -292,6 +291,23 @@ void HashTable::searchTable(string word, Text tiengAnh[], Text tuLoai[], Text ng
 			run = run->right;
 		}
 	}
+}
+void HashTable::randomWord(string &english, string &type, string &meaning) {
+	srand(time(NULL));
+	int indexTable;
+	do {
+		indexTable = rand() % hashGroups;
+	} while(countElements[indexTable] == 0);
+	
+	int indexWord = rand() % countElements[indexTable]; // 0 -> countElenmts - 1
+	
+	Word *run = table[indexTable];
+	for(int i = 0; i < indexWord; i++) {
+		run = run->right;
+	}
+	english = run->eng;
+	type = run->type;
+	meaning = run->meaning;
 }
 
 

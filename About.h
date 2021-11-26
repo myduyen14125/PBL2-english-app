@@ -1,14 +1,8 @@
 #ifndef ABOUT_H
 #define ABOUT_H
 
-#include<SFML/Graphics.hpp>
-#include<SFML/Window.hpp>
-#include<SFML/Audio.hpp>
-#include<windows.h>
+#include "library.h"
 
-using namespace sf;
-
-#define MAX_NUMBER_OF_ITEMS 7
 
 class About {
 	private:
@@ -18,7 +12,6 @@ class About {
 		Sprite spriteBackgroundAbout, spriteLogo, spriteArrow;
 	public:
 		About();
-		About(const float &WIDTH, const float &HEIGHT);
 		~About();
 		
 		void loadFont();

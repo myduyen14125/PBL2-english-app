@@ -1,6 +1,5 @@
 #include "View.h"
 
-HashTable hashtable;
 void ViewDictionary::loadFont() {
 	font[0].loadFromFile("Resource/Font/BungeeShade.ttf");
 	font[1].loadFromFile("Resource/Font/MATURASC.ttf");
@@ -13,6 +12,7 @@ void ViewDictionary::loadTexture() {
 	buttonHover.loadFromFile("Resource/Image/ButtonHover.jpg");
 	arrow.loadFromFile("Resource/Image/muiten.png");
 	arrowHover.loadFromFile("Resource/Image/muitenhover.png");
+	loaHover.loadFromFile("Resource/Image/LoaHover.png");
 	for(int i = 0; i <= 6; i++) 	loa[i].loadFromFile("Resource/Image/loa.png");
 	
 }
@@ -115,6 +115,7 @@ int ViewDictionary::handleView(RenderWindow &window, int keypressed, bool isKeyP
 			rect = searchWord.getLocalBounds();
 			marker.setPosition(searchWord.getPosition().x + rect.width + 3, 133);
 			hashtable.searchTable(inputWord, eng, type, meaning, countReadWord);
+			indexRectangle = 0;
 			tempWord = inputWord;
 		}
 		else if(keypressed == Keyboard::BackSpace) {
@@ -136,12 +137,30 @@ int ViewDictionary::handleView(RenderWindow &window, int keypressed, bool isKeyP
 		spriteArrow.setTexture(arrowHover);
 		if(Mouse::isButtonPressed(Mouse::Left))
 		{
+			inputWord = "";
+			tempWord = "";
+			inputSearch = "Search: ";
+			searchWord.setString(inputSearch);
+			marker.setPosition(320, 133);
 			return 0;
 			spriteArrow.setTexture(arrow);
 		}
 	}
 	else{
 		spriteArrow.setTexture(arrow);
+	}
+	for(int i = 0; i < countReadWord; i++) {
+		if(spriteLoa[i].getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y)) {
+			spriteLoa[i].setTexture(loaHover);
+			music.openFromFile("Resource/MusicWord/" + eng[i].getString() + ".wav");
+			if(Mouse::isButtonPressed(Mouse::Left)) {
+				music.play();
+				Sleep(500);
+			}
+		}
+		else {
+			spriteLoa[i].setTexture(loa[i]);
+		}
 	}
 	return 2;
 }
