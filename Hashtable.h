@@ -1,15 +1,8 @@
 #ifndef HASH_TABLE_H
 #define HASH_TABLE_H
 
-#include<SFML/Graphics.hpp>
-#include<SFML/Window.hpp>
-#include<SFML/Audio.hpp>
-#include<windows.h>
-#include<iostream>
-#include<string>
+#include "library.h"
 
-using namespace std;
-using namespace sf;
 class HashTable {
     private: 
 		struct Word {
@@ -20,7 +13,7 @@ class HashTable {
 		    Word* right;
 		};
 		const static int hashGroups = 26;
-		int countElements[hashGroups]; // random tu choi game cua list
+		int countElements[hashGroups] = {0}; // random tu choi game cua list
         int wordCount = 0; // so luong tu trong tu dien
 		Word* table[hashGroups];
     public:
@@ -40,6 +33,8 @@ class HashTable {
 
         void formatWord(Word &word, string line);
         void printTable();
+        
+        void randomWord(string &english, string &type, string &meaning);
 };
 
 #endif

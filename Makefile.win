@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = Game.o main.o Menu.o About.o Edit.o View.o Hashtable.o
-LINKOBJ  = Game.o main.o Menu.o About.o Edit.o View.o Hashtable.o
+OBJ      = Game.o main.o Menu.o About.o Edit.o View.o Hashtable.o Play.o
+LINKOBJ  = Game.o main.o Menu.o About.o Edit.o View.o Hashtable.o Play.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -L"E:/SFML-2.4.2/lib" -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"E:/SFML-2.4.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"E:/SFML-2.4.2/include"
@@ -44,3 +44,6 @@ View.o: View.cpp
 
 Hashtable.o: Hashtable.cpp
 	$(CPP) -c Hashtable.cpp -o Hashtable.o $(CXXFLAGS)
+
+Play.o: Play.cpp
+	$(CPP) -c Play.cpp -o Play.o $(CXXFLAGS)
