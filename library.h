@@ -6,7 +6,12 @@
 #include<SFML/Audio.hpp>
 #include<windows.h>
 #include<iostream>
+<<<<<<< HEAD
 #include<string>
+=======
+#include<string.h>
+#include <stdlib.h> 
+>>>>>>> master
 
 #define MAX_NUMBER_OF_ITEMS 7
 

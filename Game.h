@@ -7,6 +7,7 @@
 #include "View.h"
 #include "Edit.h"
 using namespace std;
+<<<<<<< HEAD
 //int i = 0;
 //string s;
 //Text text;
@@ -26,6 +27,9 @@ using namespace std;
 //	else Sleep(30);
 //	i++;
 //}
+=======
+
+>>>>>>> master
 const int WIDTH  = 900;
 const int HEIGHT = 900;
 class Game{

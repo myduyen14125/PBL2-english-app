@@ -53,18 +53,26 @@ About::About() {
 	about[5].setString("NGUYEN PHUOC DAI TOAN - 102200035");
 	about[6].setString("Giang vien huong dan: LE THI MY HANH");
 	
+<<<<<<< HEAD
 	about[0].setFont(font[3]); // font[3]
+=======
+	about[0].setFont(font[3]);
+>>>>>>> master
 	about[0].setFillColor(Color::Black);
 	about[0].setCharacterSize(50);
 	about[0].setPosition(Vector2f(WIDTH/2-340, HEIGHT/7-50));
 	FloatRect rect;
 	for(int i=1;i<=6;i++){
+<<<<<<< HEAD
 		about[i].setFont(font[2]); // font[2]
+=======
+		about[i].setFont(font[2]); 
+>>>>>>> master
 		about[i].setCharacterSize(35);
 		about[i].setFillColor(Color::Black);
 		rect = about[i].getLocalBounds();
 		about[i].setOrigin(rect.width/2, rect.height/2);
-		if(i==1){
+		if(i == 1){
 			about[i].setPosition(Vector2f(WIDTH/2, 170));
 		}
 		else{

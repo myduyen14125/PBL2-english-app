@@ -181,7 +181,11 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit14]
+<<<<<<< HEAD
 FileName=Play.cpp
+=======
+FileName=library.h
+>>>>>>> master
 CompileCpp=1
 Folder=
 Compile=1
@@ -191,7 +195,11 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit15]
+<<<<<<< HEAD
 FileName=Play.h
+=======
+FileName=Play.cpp
+>>>>>>> master
 CompileCpp=1
 Folder=
 Compile=1
@@ -201,7 +209,11 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit16]
+<<<<<<< HEAD
 FileName=library.h
+=======
+FileName=Play.h
+>>>>>>> master
 CompileCpp=1
 Folder=
 Compile=1

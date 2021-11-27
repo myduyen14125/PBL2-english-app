@@ -2,7 +2,13 @@
 #define HASH_TABLE_H
 
 #include "library.h"
+<<<<<<< HEAD
 
+=======
+#include <stdlib.h> 
+#include <ctime>
+using namespace std;
+>>>>>>> master
 class HashTable {
     private: 
 		struct Word {
