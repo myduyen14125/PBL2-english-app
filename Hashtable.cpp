@@ -7,6 +7,7 @@ using namespace std;
 HashTable::HashTable() {
     for (int i = 0; i < hashGroups; i++) {
     	table[i] = nullptr;
+    	countElements[i] = 0;
     }
     this->readFile();
 }
@@ -292,23 +293,23 @@ void HashTable::searchTable(string word, Text tiengAnh[], Text tuLoai[], Text ng
 		}
 	}
 }
-void HashTable::randomWord(string &english, string &type, string &meaning) {
+void HashTable::randomWord(string &english, string &typ, string &mean) {
 	srand(time(NULL));
-	int indexTable;
+	int indexTable = 0;
 	do {
 		indexTable = rand() % hashGroups;
 	} while(countElements[indexTable] == 0);
 	
 	int indexWord = rand() % countElements[indexTable]; // 0 -> countElenmts - 1
-	
 	Word *run = table[indexTable];
 	for(int i = 0; i < indexWord; i++) {
 		run = run->right;
 	}
 	english = run->eng;
-	type = run->type;
-	meaning = run->meaning;
+	typ = run->type;
+	mean = run->meaning;
 }
+
 
 
 

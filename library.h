@@ -6,7 +6,8 @@
 #include<SFML/Audio.hpp>
 #include<windows.h>
 #include<iostream>
-#include<string>
+#include<string.h>
+#include <stdlib.h> 
 
 #define MAX_NUMBER_OF_ITEMS 7
 

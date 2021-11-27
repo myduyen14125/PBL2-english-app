@@ -23,7 +23,7 @@ void Game::processEvents() {
 		{
 			case Event::Closed:
 				window.close();
-				return;
+				break;
 			case Event::KeyPressed:
 				keycode = event.key.code;
 				if(checkOptions == 1) {
@@ -61,10 +61,19 @@ void Game::render() {
 	}
 	else if(checkOptions == 1)
 	{
-		play.drawPlay(window);
+		play.draw(window);
 	}
 	else if(checkOptions == 2) {
 		view.drawView(window);
+	}
+	else if(checkOptions == 3) {
+		checkOptions = 0;
+	}
+	else if(checkOptions == 4) {
+		checkOptions = 0;
+	}
+	else if(checkOptions == 5) {
+		checkOptions = 0;
 	}
 	else if(checkOptions == 6){
 		about.drawAbout(window);

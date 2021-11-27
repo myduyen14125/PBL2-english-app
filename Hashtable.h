@@ -2,7 +2,9 @@
 #define HASH_TABLE_H
 
 #include "library.h"
-
+#include <stdlib.h> 
+#include <ctime>
+using namespace std;
 class HashTable {
     private: 
 		struct Word {
@@ -13,7 +15,7 @@ class HashTable {
 		    Word* right;
 		};
 		const static int hashGroups = 26;
-		int countElements[hashGroups] = {0}; // random tu choi game cua list
+		int countElements[hashGroups]; // random tu choi game cua list
         int wordCount = 0; // so luong tu trong tu dien
 		Word* table[hashGroups];
     public:

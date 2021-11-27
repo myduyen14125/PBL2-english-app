@@ -2,10 +2,10 @@
 #define VIEW_H
 
 #include "library.h"
-
+#include "HashTable.h"
 class ViewDictionary {
+	HashTable hashtable;
 	private:
-		HashTable hashtable;
 		int indexRectangle = 0, countReadWord = 0;
 		Font font[4];
 		Texture image[MAX_NUMBER_OF_ITEMS], loa[MAX_NUMBER_OF_ITEMS];
