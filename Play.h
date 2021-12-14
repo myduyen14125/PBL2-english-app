@@ -1,67 +1,62 @@
 #ifndef PLAY_H
 #define PLAY_H
 
-#include "library.h"
-#include "Hashtable.h"
-#include<iostream>
-using namespace std;
-
-class Play {
-	HashTable hashtable;
-	// Loading game
+#include "Base.h"
+#include "Score.h"
+class Play: public Base {
 	private:
-		int percent = 99;
-		string textPercent = "";
-		Text loadingPercent;
-	// Play game
-	private:
-		bool check = false;
-		bool resetClock = false;
-		bool playGame = false;
-		bool endGame = false;
-		string correctWord, defectWord, meaningPlay, typePlay, fill;
-		int random_index, countGuess = 0, initialization = 0, number_of_sentences = 0;
-		int score_of_sentences[7] = {0};
-		int count_guess_of_sentences[7] = {0};
-		int totalScoreInt = 0;
-		int number_of_correct_sentences = 0;
-		
-		const int MAX_GUESS_WORD = 3;
-		const int MAX_NUMBERS_SENTENCES = 7;
-		const char keyboard[26] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'
-						, 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-		FloatRect rect;
-		Font font, fontTiengAnh;			
-		Text wordPlay, fill_character, inforWord;
-		Texture imageWordPlay, audio, audioHover, background;
-		Sprite spriteImageWordPlay, spriteAudioPlay, spriteBackground;
-		Music musicWord[7], correctMusic, wrongMusic;
-		Clock clock;
+		WordEng word[MAX_ITEMS];
+		Sprite spriteImages[MAX_ITEMS], spriteSpeaks[MAX_ITEMS], spriteSpeakPlay, spriteImageWordPlay;
+		Texture heart;
+		Sprite spriteHeart[3];
+		Text inforWord, wordPlay, fill_character;
+		Text textPercent, ready, yes, no;
+		Text congratulation, bulkhead, totalScoreText, totalScoreInt, continueGame, scorePlayText;
+		Text eng[MAX_ITEMS], type[MAX_ITEMS], meaning[MAX_ITEMS], times[MAX_ITEMS], score[MAX_ITEMS], sub[6], error[4];
+		RectangleShape confirmContinueGame, confirmPlayGame, confirmNotPlayGame;
+		Music correctMusic, wrongMusic;
 		Time timeSeconds;
+		Clock clock;
 		
-		// Result
-		Text eng[7], type[7], meaning[7], times[7], score[7], sub[6];
-		Text congratulation, bulkhead, textTotalScore, totalScore, continueGame;
-		Texture imageWordResult[7], arrow, arrowHover, buttonContinueGame, buttonContinueGameHover;
-		Sprite spriteImageWordResult[7], spriteAudioResult[7], spriteArrow;
-		RectangleShape rectangle;
+		int initial = 0;
+		int percent = 0;
+		bool isResetClock = false;
+		bool isCorrect = false;
+		bool isPlayGame = false;
+		bool isEndGame = false;
+		
+		string defectWord;
+		string correctWord;
+		string tempFill;
+		int randomIndex;
+		
+		int number_of_correct_sentences = 0; // So cau dung
+		int countGuess_of_sentences[MAX_ITEMS] = {0}; // So lan doan / 1 cau
+		const int MAX_GUESS = 3; // So lan doan toi da
+		int score_of_sentences[MAX_ITEMS] = {0}; // Diem / cau
+		int totalScore = 0; // tong diem
+		int positionSentences = 0; // So cau hien tai
 	public:
 		Play();
 		~Play();
-		void loadFont();
-		void loadTexture();
-		void setSprite();
-		void loadMusic();
+		
+		int handle(RenderWindow& window) {
+		}
+		int handle(RenderWindow &window, int keypressed, bool isKeyPressed, HashTable &table, Score &objectScore);
+		void draw(RenderWindow &window);
+	private:
 		void loadResource();
+		void setWordPlay(const HashTable &table);
+		void setTextLoadingGame();
 		void setTextResult();
+		void setTextError();
 		
-		int handlePlay(RenderWindow &window, int keypressed, bool isKeyPressed);
-		
+		void drawErrorGame(RenderWindow &window);
 		void drawLoadingGame(RenderWindow &window);
 		void drawPlayGame(RenderWindow &window);
 		void drawEndGame(RenderWindow &window);
-		void draw(RenderWindow &window);
 		
-		void runGame();
+		void reset();
 };
+
 #endif

@@ -1,42 +1,43 @@
-#ifndef HASH_TABLE_H
-#define HASH_TABLE_H
+#ifndef HASHTABLE_H
+#define HASHTABLE_H
 
-#include "library.h"
-#include <stdlib.h> 
-#include <ctime>
+#include"Word.h"
+#include<stdlib.h> 
+#include<ctime>
+#include<fstream>
+#include<iostream>
+#include<iomanip>
 using namespace std;
+
 class HashTable {
-    private: 
-		struct Word {
-		    string eng;
-		    string type;
-		    string meaning;
-		    Word* left;
-		    Word* right;
-		};
+	private:
 		const static int hashGroups = 26;
-		int countElements[hashGroups]; // random tu choi game cua list
+		int countElements[26] = {0}; // random tu choi game cua list
         int wordCount = 0; // so luong tu trong tu dien
-		Word* table[hashGroups];
-    public:
-        HashTable();
+		WordEng headTable[hashGroups];
+		WordEng tailTable[hashGroups];
+	public:
+		HashTable();
 		~HashTable();
 		
 		void readFile();
 		void updateFile();
-        bool isEmpty() const;
-        int hashFunction(string eng);
+		WordEng formatWord(string);
 		
-        void insertWord(string eng, string type, string meaning);
-        void removeWord(string eng);
-        string leftWord(string leftWord);
-        string rightWord(string rightWord);
-        void searchTable(string word, Text tiengAnh[], Text tuLoai[], Text nghia[], int &countReadWord);
-
-        void formatWord(Word &word, string line);
-        void printTable();
+        bool isEmpty();
+        int hashFunction(string eng);
         
-        void randomWord(string &english, string &type, string &meaning);
+        int findViewWord(WordEng word[], WordEng tempWord);
+        WordEng findWord(string eng);
+        WordEng findFirstWord();
+        WordEng findLeftWord(WordEng eng);
+        WordEng findRightWord(WordEng eng);
+        
+        bool insertWord(WordEng);
+        void removeWord(WordEng);
+        void editWord(WordEng oldWord, WordEng newWord);
+        int getCountWord();
+        WordEng randomWord() const;
+        void printTable();
 };
-
 #endif

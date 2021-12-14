@@ -1,15 +1,15 @@
-# Project: DemoGiaodien
+# Project: PBL2
 # Makefile created by Dev-C++ 5.11
 
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = Game.o main.o Menu.o About.o Edit.o View.o Hashtable.o Play.o
-LINKOBJ  = Game.o main.o Menu.o About.o Edit.o View.o Hashtable.o Play.o
+OBJ      = Word.o Base.o Menu.o About.o HashTable.o Play.o Edit.o View.o Game.o Form.o Score.o Instruction.o
+LINKOBJ  = Word.o Base.o Menu.o About.o HashTable.o Play.o Edit.o View.o Game.o Form.o Score.o Instruction.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -L"F:/SFML-2.4.2/lib" -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"F:/SFML-2.4.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"F:/SFML-2.4.2/include"
-BIN      = DemoGiaodien.exe
+BIN      = PBL2.exe
 CXXFLAGS = $(CXXINCS) -std=c++11
 CFLAGS   = $(INCS) -std=c++11
 RM       = rm.exe -f
@@ -24,11 +24,11 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
 
-Game.o: Game.cpp
-	$(CPP) -c Game.cpp -o Game.o $(CXXFLAGS)
+Word.o: Word.cpp
+	$(CPP) -c Word.cpp -o Word.o $(CXXFLAGS)
 
-main.o: main.cpp
-	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+Base.o: Base.cpp
+	$(CPP) -c Base.cpp -o Base.o $(CXXFLAGS)
 
 Menu.o: Menu.cpp
 	$(CPP) -c Menu.cpp -o Menu.o $(CXXFLAGS)
@@ -36,14 +36,26 @@ Menu.o: Menu.cpp
 About.o: About.cpp
 	$(CPP) -c About.cpp -o About.o $(CXXFLAGS)
 
+HashTable.o: HashTable.cpp
+	$(CPP) -c HashTable.cpp -o HashTable.o $(CXXFLAGS)
+
+Play.o: Play.cpp
+	$(CPP) -c Play.cpp -o Play.o $(CXXFLAGS)
+
 Edit.o: Edit.cpp
 	$(CPP) -c Edit.cpp -o Edit.o $(CXXFLAGS)
 
 View.o: View.cpp
 	$(CPP) -c View.cpp -o View.o $(CXXFLAGS)
 
-Hashtable.o: Hashtable.cpp
-	$(CPP) -c Hashtable.cpp -o Hashtable.o $(CXXFLAGS)
+Game.o: Game.cpp
+	$(CPP) -c Game.cpp -o Game.o $(CXXFLAGS)
 
-Play.o: Play.cpp
-	$(CPP) -c Play.cpp -o Play.o $(CXXFLAGS)
+Form.o: Form.cpp
+	$(CPP) -c Form.cpp -o Form.o $(CXXFLAGS)
+
+Score.o: Score.cpp
+	$(CPP) -c Score.cpp -o Score.o $(CXXFLAGS)
+
+Instruction.o: Instruction.cpp
+	$(CPP) -c Instruction.cpp -o Instruction.o $(CXXFLAGS)

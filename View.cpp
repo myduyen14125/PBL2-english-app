@@ -1,56 +1,15 @@
 #include "View.h"
 
-void ViewDictionary::loadFont() {
-	font[0].loadFromFile("Resource/Font/BungeeShade.ttf");
-	font[1].loadFromFile("Resource/Font/MATURASC.ttf");
-	font[2].loadFromFile("Resource/Font/timesbd.ttf");
-	font[3].loadFromFile("Resource/Font/ALGER.ttf");
-}
-void ViewDictionary::loadTexture() {
-	backgroundView.loadFromFile("Resource/Image/backgroundView.jpg");
-	button.loadFromFile("Resource/Image/Button.jpg");
-	buttonHover.loadFromFile("Resource/Image/ButtonHover.jpg");
-	arrow.loadFromFile("Resource/Image/muiten.png");
-	arrowHover.loadFromFile("Resource/Image/muitenhover.png");
-	loaHover.loadFromFile("Resource/Image/LoaHover.png");
-	for(int i = 0; i <= 6; i++) 	loa[i].loadFromFile("Resource/Image/loa.png");
-	
-}
-void ViewDictionary::setSprite() {
-	spriteBackgroundView.setTexture(backgroundView);
-	spriteBackgroundView.setScale(1.25, 1);
-	
-	for(int i = 0; i <= 6; i++) {
-		spriteLoa[i].setTexture(loa[i]);
-		spriteLoa[i].setScale(0.1 , 0.1);
-		spriteLoa[i].setPosition(720, 100*(i+1) + 100);
-		spriteLoa[i].setScale(0.018, 0.018);
-	}
-	
-	spriteArrow.setTexture(arrow);
-	spriteArrow.setScale(0.1,0.1);
-	spriteArrow.setPosition(5,5);
-}
 void ViewDictionary::loadResource() {
-	loadFont();
-	loadTexture();
-	setSprite();
-}
-ViewDictionary::ViewDictionary() {
-	loadResource();
-	// Head
-	head.setFont(font[3]);
-	head.setString("VIEW DICTIONARY");
-	head.setPosition(270, 10);
-	head.setCharacterSize(50);
-	head.setFillColor(Color::Red);
+	background.loadFromFile("Resource/Image/backgroundView.jpg");
+	spriteBackground.setTexture(background);
 	
-	// Search
-	searchWord.setString(inputSearch);
-	searchWord.setFont(font[2]);
-	searchWord.setFillColor(Color::Red);
-	searchWord.setPosition(200,100);
-	searchWord.setCharacterSize(35);
+	for(int i = 0; i < MAX_ITEMS; i++) {
+		spriteSpeaks[i].setTexture(speak);
+		spriteSpeaks[i].setScale(0.1, 0.1);
+		spriteSpeaks[i].setPosition(720, 100 * (i+1) + 100);
+		spriteSpeaks[i].setScale(0.018, 0.018);
+	}
 	
 	// Rectangle
 	rectangle.setSize(Vector2f(750.f, 80.f));
@@ -60,8 +19,25 @@ ViewDictionary::ViewDictionary() {
 	marker.setSize(Vector2f(15.f, 5.f));
 	marker.setPosition(320, 133);
 	marker.setFillColor(Color::Black);
+}
+ViewDictionary::ViewDictionary() {
+	loadResource();
 	
-	for(int i = 0; i <= 6; i++) {
+	title.setFont(font[3]);
+	title.setString("VIEW DICTIONARY");
+	title.setCharacterSize(50);
+	title.setPosition(450, 30);
+	rect = title.getLocalBounds();
+	title.setOrigin(rect.width/2, rect.height/2);
+	title.setFillColor(Color::Red);
+	
+	searchText.setString(search);
+	searchText.setFont(font[2]);
+	searchText.setFillColor(Color::Red);
+	searchText.setPosition(200,100);
+	searchText.setCharacterSize(35);
+	
+	for(int i = 0; i < MAX_ITEMS; i++) {
 		eng[i].setCharacterSize(30);
 		eng[i].setFont(font[2]);
 		eng[i].setFillColor(Color::Black);
@@ -74,102 +50,132 @@ ViewDictionary::ViewDictionary() {
 		meaning[i].setFont(font[2]);
 		meaning[i].setFillColor(Color::Black);
 		meaning[i].setPosition(500, 100*(i+2));
+		
+		word[i] = new Word;
 	}
+	firstWordCurrent = new Word;
+	firstWordCurrent = nullptr;
+	initial = 0;
 }
 ViewDictionary::~ViewDictionary() {
-	
 }
-int ViewDictionary::handleView(RenderWindow &window, int keypressed, bool isKeyPressed) {
-	if(tempWord == "")		hashtable.searchTable(tempWord, eng, type, meaning, countReadWord);
-	for(int i = 0; i < 7; i++) {
-		image[i].loadFromFile("Resource/ImageWord/" + eng[i].getString() + ".jpg");
-		spriteImage[i].setTexture(image[i]);
-		spriteImage[i].setScale(0.2 , 0.2);
-		spriteImage[i].setPosition(780, 100*(i+1) + 80);
+
+int ViewDictionary::handle(RenderWindow& window, int keypressed, bool isKeyPressed, HashTable& table) {
+	if(firstWordCurrent == nullptr && initial == 0) {
+		firstWordCurrent = table.findFirstWord();
+		countReadWord = table.findViewWord(word, firstWordCurrent);
+		initial = 1;
 	}
+
 	if(isKeyPressed) {
 		if(keypressed == Keyboard::Up) {
-			if(indexRectangle != 0) indexRectangle--;
+			if(table.getCountWord() == 0)
+				return 2;
+			if(positionWord != 0) positionWord--;
 			else {
-				tempWord = hashtable.leftWord(eng[0].getString());
-				if(tempWord != "") {
-					hashtable.searchTable(tempWord, eng, type, meaning, countReadWord);
-				}
+				firstWordCurrent = table.findLeftWord(word[0]);
 			}
 		}
 		else if(keypressed == Keyboard::Down) {
-			if(indexRectangle < countReadWord-1) {
-				indexRectangle++;
+			if(table.getCountWord() == 0)
+				return 2;
+			if(positionWord < countReadWord - 1) {
+				positionWord++;
 			}
 			else {
-				tempWord = hashtable.rightWord(eng[0].getString());
-				if(tempWord != "zzz" && countReadWord == 7) {
-					hashtable.searchTable(tempWord, eng, type, meaning, countReadWord);
+				firstWordCurrent = table.findRightWord(word[0]);
+				countReadWord = table.findViewWord(word, firstWordCurrent);
+				if(word[6] == nullptr) {
+					firstWordCurrent = table.findLeftWord(word[0]);
 				}
 			}
 		}
 		else if(keypressed >= Keyboard::A && keypressed <= Keyboard::Z) {
 			inputWord += keyboard[keypressed];
-			inputSearch += keyboard[keypressed];
-			searchWord.setString(inputSearch);
-			rect = searchWord.getLocalBounds();
-			marker.setPosition(searchWord.getPosition().x + rect.width + 3, 133);
-			hashtable.searchTable(inputWord, eng, type, meaning, countReadWord);
-			indexRectangle = 0;
-			tempWord = inputWord;
+			search += keyboard[keypressed];
+			searchText.setString(search);
+			
+			rect = searchText.getLocalBounds();
+			marker.setPosition(searchText.getPosition().x + rect.width + 3, 133);
+			
+			firstWordCurrent = table.findWord(inputWord);
+			if(firstWordCurrent == nullptr) {
+				countReadWord = 0;
+				return 2;
+			}
+			positionWord = 0;
 		}
 		else if(keypressed == Keyboard::BackSpace) {
-			if(inputSearch.length() > 8) {
+			if(search.length() > 8) {
 				inputWord.pop_back();
-				inputSearch.pop_back();
-				searchWord.setString(inputSearch);
-				rect = searchWord.getLocalBounds();
-				marker.setPosition(searchWord.getPosition().x + rect.width + 3, 133);
-				hashtable.searchTable(inputWord, eng, type, meaning, countReadWord);
-				tempWord = inputWord;
+				search.pop_back();
+				
+				searchText.setString(search);
+				rect = searchText.getLocalBounds();
+				
+				marker.setPosition(searchText.getPosition().x + rect.width + 3, 133);
 			}	
+			if(inputWord != "") {
+				firstWordCurrent = table.findWord(inputWord);
+			}
+			else {
+				firstWordCurrent = table.findFirstWord();
+				positionWord = 0;
+			}
 		}
+		else firstWordCurrent = table.findWord(inputWord);
 	}
-	rectangle.setPosition(eng[indexRectangle].getPosition().x-10, eng[indexRectangle].getPosition().y-20);
-    
-	if(Mouse::getPosition(window).x<=77 && Mouse::getPosition(window).y<=55)
-	{
-		spriteArrow.setTexture(arrowHover);
-		if(Mouse::isButtonPressed(Mouse::Left))
-		{
-			inputWord = "";
-			tempWord = "";
-			inputSearch = "Search: ";
-			searchWord.setString(inputSearch);
-			marker.setPosition(320, 133);
-			return 0;
-			spriteArrow.setTexture(arrow);
+
+	countReadWord = table.findViewWord(word, firstWordCurrent);
+
+	if(positionWord >= countReadWord) {
+		if(positionWord > 0) {
+			positionWord--;
 		}
-	}
-	else{
-		spriteArrow.setTexture(arrow);
 	}
 	for(int i = 0; i < countReadWord; i++) {
-		if(spriteLoa[i].getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y)) {
-			spriteLoa[i].setTexture(loaHover);
-			music.openFromFile("Resource/MusicWord/" + eng[i].getString() + ".wav");
+		eng[i].setString(word[i]->getEnglish());
+		type[i].setString(word[i]->getType());
+		meaning[i].setString(word[i]->getMeaning());
+		spriteImageWords[i].setTexture(word[i]->getImage());
+		spriteImageWords[i].setScale(0.2 , 0.2);
+		spriteImageWords[i].setPosition(780, 100*(i+1) + 80);			
+	}
+	rectangle.setPosition(eng[positionWord].getPosition().x-10, eng[positionWord].getPosition().y-20);
+    
+	if(spriteArrow.getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y)) {
+		spriteArrow.setTexture(arrowHover);
+		if(Mouse::isButtonPressed(Mouse::Left)) {
+			inputWord = "";
+			search = "Search: ";
+			positionWord = 0;
+			firstWordCurrent = table.findFirstWord();
+			searchText.setString(search);
+			marker.setPosition(320, 133);
+			return 0;
+		}
+	}
+	else	spriteArrow.setTexture(arrow);
+	
+	for(int i = 0; i < countReadWord; i++) {
+		if(spriteSpeaks[i].getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y)) {
+			spriteSpeaks[i].setTexture(speakHover);
 			if(Mouse::isButtonPressed(Mouse::Left)) {
-				music.play();
+				word[i]->playMusic();
 				Sleep(500);
 			}
 		}
-		else {
-			spriteLoa[i].setTexture(loa[i]);
-		}
+		else	spriteSpeaks[i].setTexture(speak);	
 	}
 	return 2;
 }
-void ViewDictionary::drawView(RenderWindow &window) {
-	window.draw(spriteBackgroundView);
+
+void ViewDictionary::draw(RenderWindow &window) {
+	window.draw(spriteBackground);
 	window.draw(spriteArrow);
     window.draw(rectangle);
-    window.draw(head);
-    window.draw(searchWord);
+    window.draw(title);
+    window.draw(searchText);
     time = clock.getElapsedTime();
 	if(time.asSeconds() > 0.5) {
 		window.draw(marker);
@@ -177,11 +183,11 @@ void ViewDictionary::drawView(RenderWindow &window) {
 	if(time.asSeconds() > 1) {
 		clock.restart();
 	}	
-    for(int i=0; i< countReadWord; i++) {
-        if(i == indexRectangle) {
-        	eng[i].setFillColor(Color::Black);
-       		type[i].setFillColor(Color::Black);
-        	meaning[i].setFillColor(Color::Black);
+    for(int i = 0; i< countReadWord; i++) {
+       	if(i == positionWord) {
+        	eng[i].setFillColor(Color::Red);
+       		type[i].setFillColor(Color::Red);
+        	meaning[i].setFillColor(Color::Red);
 		}
 		else {
 			eng[i].setFillColor(Color::Black);
@@ -191,8 +197,19 @@ void ViewDictionary::drawView(RenderWindow &window) {
        	window.draw(eng[i]);
        	window.draw(type[i]);
         window.draw(meaning[i]);
-        window.draw(spriteLoa[i]);
-	    window.draw(spriteImage[i]);
+        window.draw(spriteSpeaks[i]);
+	    window.draw(spriteImageWords[i]);
 	}
 }
-
+WordEng ViewDictionary::getWord() {
+	return word[positionWord];
+}
+WordEng ViewDictionary::getFirstWordCurrent() {
+	return firstWordCurrent;
+}
+void ViewDictionary::setFirstWordCurrent(HashTable &table) {
+	firstWordCurrent = table.findFirstWord();
+}
+void ViewDictionary::setTitle(string s) {
+	title.setString(s);
+}

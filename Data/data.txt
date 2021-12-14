@@ -1,0 +1,35 @@
+abacus@Noun@Ban tinh@
+b@C@A@
+bell@Noun@Cai chuong@
+camera@Noun@May anh@
+chair@Noun@Cai ghe@
+chalk@Noun@Vien phan@
+chips@Noun@Khoai tay chien@
+connection@Noun@Ket noi@
+disk@Noun@Dia@
+dress@Noun@Vay@
+elf@Noun@Chu lun@
+firewall@Noun@Tuong lua@
+flower@Noun@Bong hoa@
+graphic@Noun@Do hoa@
+hardware@Noun@Phan cung@
+hat@Noun@Cai mu@
+increase@Noun@Tang@
+install@Noun@Cai dat@
+jacket@Noun@Ao khoac@
+keyboard@Noun@Ban phim@
+law@Noun@Phap luat@
+leader@Noun@Lanh dao@
+leaf@Noun@La@
+map@Noun@Ban do@
+memory@Noun@Bo nho@
+microprocessor@Noun@Vi xu ly@
+operating system@Noun@He dieu hanh@
+percentage@Noun@Phan tram@
+pizza@Noun@Pizza@
+reindeer@Noun@Tuan loc@
+rose@Noun@Hoa hong@
+school@Noun@Truong hoc@
+snowflake@Noun@Bong tuyet@
+speakers@Noun@Loa@
+table@Noun@Cai ban@

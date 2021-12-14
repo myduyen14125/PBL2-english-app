@@ -1,55 +1,80 @@
-#include <fstream>
-#include <iomanip>
-#include "hashTable.h"
-
-using namespace std;
+#include"HashTable.h"
 
 HashTable::HashTable() {
     for (int i = 0; i < hashGroups; i++) {
-    	table[i] = nullptr;
-    	countElements[i] = 0;
-    }
-    this->readFile();
+	    headTable[i] = nullptr;
+	   	tailTable[i] = nullptr;
+	   	countElements[i] = 0;
+	}
+	readFile();
 }
 HashTable::~HashTable() {
 	
 }
 void HashTable::readFile() {
 	ifstream FileIn;
-    FileIn.open("F:\\PBl2\\data.txt", ios_base::in);
+    FileIn.open("F:\\PBL2-english-app\\Data\\data.txt", ios_base::in);
     if (FileIn.fail()) {
-        cout << "Data update failed!" << endl;
+        cout << "Open file failed!" << endl;
     }
-    Word word;
+    WordEng word = new Word;
     string line;
     while (!FileIn.eof()) {
         getline(FileIn, line);
-        if(line != "")
-        {
-        	formatWord(word, line);
-			insertWord(word.eng, word.type, word.meaning);
+        if(line != "") {
+        	word = formatWord(line);
+			insertWord(word);
 		}
     }
     FileIn.close();
 }
 void HashTable::updateFile() {
-	int i = 0;
 	ofstream FileOut;
-	FileOut.open("F:\\PBl2\\data.txt", ios::out);
-	while(i < hashGroups)
-	{
-		Word *run = table[i];
-        while(run != nullptr) {
-           	FileOut<<run->eng<<"@"<<run->type<<"@"<<run->meaning<<"@"<<endl;
-           	run = run->right;
+	FileOut.open("F:\\PBL2-english-app\\Data\\data.txt", ios::out);
+	WordEng run = new Word;
+	for(int i = 0; i < hashGroups; i++) {
+		if(headTable[i] != nullptr) {
+			run = headTable[i];
+			for(int j = 0; j < countElements[i]; j++) {
+				FileOut<<run->getEnglish()<<"@"<<run->getType()<<"@"<<run->getMeaning()<<"@"<<endl;
+           		run = run->getNext();
+			}
 		}
-		i++;
 	}
+	delete run;
 	FileOut.close();
 }
-bool HashTable::isEmpty() const {
+WordEng HashTable::formatWord(string line) {
+	WordEng word = new Word;
+	string eng, type, meaning;
+	string s = "";
+	int i = 0;
+	while(line[i] != '@') {
+        s += line[i];
+        i++;
+	}
+	i++;
+	eng = s;
+	s = "";
+	while(line[i] != '@') {
+        s += line[i];
+        i++;
+	}
+	i++;
+	type = s;
+	s = "";
+	while(line[i] != '@') {
+      	s += line[i];
+       	i++;
+	}
+	meaning = s;
+	word->setWord(eng, type, meaning);
+	return word;
+}
+
+bool HashTable::isEmpty() {
     if(wordCount == 0)	return true;
-    else return false;
+    return false;
 }
 
 int HashTable::hashFunction(string eng) { 
@@ -62,238 +87,190 @@ int HashTable::hashFunction(string eng) {
     return -1;
 }
 
-void HashTable::insertWord(string eng, string type, string meaning) {
-	Word* newWord = new Word;
-	newWord->eng = eng;
-	newWord->type = type;
-	newWord->meaning = meaning;
-	newWord->left = nullptr;
-	newWord->right = nullptr;
-    int key = hashFunction(newWord->eng);
-    Word* run  = table[key];
-    
-    if(table[key] == nullptr) {
-    	table[key] = newWord;
-    	table[key]->left = nullptr;
-    	table[key]->right = nullptr;
+int HashTable::findViewWord(WordEng word[], WordEng tempWord) {
+	if(tempWord == nullptr) {
+		return 0;
 	}
-	else if(newWord->eng < run->eng) {
-		newWord->right = run;
-		run->left = newWord;
-		table[key] = newWord;
-	}
-	else {
-		Word* temp;
-		while(run->eng < newWord->eng) {
-			if(run->right == nullptr)	break;
-			run = run->right;
-		}	
-		if(run->eng < newWord->eng && run->right == nullptr) {
-			run->right = newWord;
-			newWord->left = run;
-		}
-		else {
-			temp = run->left;
-			newWord->right = run;
-			newWord->left = temp;
-			temp->right = newWord;
-			run->left = newWord;
-		}
-	}
-	countElements[key]++;
-	wordCount++;
-}
-void HashTable::removeWord(string eng) {
-    int key = hashFunction(eng);
-    if(table[key] == nullptr)
-    	cout<<"Khong ton tai word can xoa"<<endl;
-    else {
-    	Word* run  = table[key];
-    	if(run->eng == eng) {
-    		if(run->right == nullptr) 	run = nullptr;
-			else	run = run->right;
-			table[key] = run;
-		}
-		else {
-			bool check = false;
-			while(run != nullptr) {
-				if(run->right == nullptr) {
-					break;
-				}
-				if(run->right->eng == eng) {
-					run->right = run->right->right;
-					check = true;
-					wordCount--;
-					break;
-				}
-				run = run->right;
-			}
-			if(!check)	cout<<"Khong ton tai word can xoa"<<endl;
-		}
-	}
-}
-void HashTable::formatWord(Word &word, string line) {
-	string s = "";
-	int i = 0;
-	while(line[i] != '@') {
-        s += line[i];
-        i++;
-	}
-	i++;
-	word.eng = s;
-	s = "";
-	while(line[i] != '@') {
-        s += line[i];
-        i++;
-	}
-	i++;
-	word.type = s;
-	s = "";
-	while(line[i] != '@') {
-      	s += line[i];
-       	i++;
-	}
-	word.meaning = s;
-}
-
-void HashTable::printTable() {
-    for (int i = 0; i < hashGroups; i++) {
-    	int dem = 0;
-        Word *run = table[i];
-        while(run != nullptr) {
-           	cout<<setw(20)<<run->eng<<setw(15)<<run->type<<setw(20)<<run->meaning<<endl;
-           	run = run->right;
-		}
-    }
-}
-string HashTable::leftWord(string leftWord) {
-	int key;
-	if(leftWord == "") {
-		key = 0;
-	}
-	else {
-		key = hashFunction(leftWord);
-	}
-	
-	Word *run = table[key];
-	if(table[key] == nullptr || table[key]->eng >= leftWord) {
-		while(table[key] == nullptr || table[key]->eng >= leftWord) {
-			key--;
-			if(key < 0) {
-				return "";
-			}
-		}
-		run = table[key];
-		while(run->right != nullptr) {
-			run = run->right;
-		}
-		return run->eng;
-	}
-	else {
-		bool isNull = false;
-		while(run != nullptr && run->eng < leftWord) {
-			if(run->right == nullptr) {
-				isNull = true;
-				break;
-			}
-			else run = run->right;
-		}
-		if(isNull) return run->eng;
-		else return run->left->eng;
-	}
-}
-string HashTable::rightWord(string rightWord) {
-	int key;
-	if(rightWord == "") {
-		key = 0;
-	}
-	else {
-		key = hashFunction(rightWord);
-	}
-	
-	Word *run = table[key];
-	
-	if(table[key] == nullptr || table[key]->eng > rightWord) {
-		while(table[key] == nullptr) {
-			key++;
-			if(key > 25) {
-				return "zzz";
-			}
-		}
-		return table[key]->eng;
-	}
-	else {
-		while(run != nullptr && run->eng <= rightWord) {
-			run = run->right;
-		}
-		if(run == nullptr) {
-			while(run == nullptr) {
-				key++;
-				if(key > 25) {
-					return "zzz";
-				}
-				run = table[key];
-			}
-			return run->eng;
-		}
-		else {
-			return run->eng;
-		}
-		
-	}
-}
-void HashTable::searchTable(string word, Text tiengAnh[], Text tuLoai[], Text nghia[], int &countReadWord) {
-	countReadWord = 0;
-	int key;
-	if(word == "") {
-		key = 0;
-	}
-	else {
-		key = hashFunction(word);
-	}
-	
-	Word *run = table[key];
-	if(word != "") {
-		if(table[key] == nullptr) {
-			while(table[key] == nullptr) {
-				key++;
-				if(key > 25) {
-					break;
-				}
-			}
-			run = table[key];
-		}
-		else {
-			while(run != nullptr && run->eng < word) {
-				run = run->right;
-			}
-			if(table[key] == nullptr) {
-				while(run == nullptr) {
-					key++;
-					if(key > 25)	break;
-				}
-				run = table[key];
-			}
-		}
-	}
-
+	int countReadWord = 0;
+	WordEng run = tempWord;
+	int key = hashFunction(tempWord->getEnglish());
 	for(int i = 0; i < 7; i++) {
 		if(run == nullptr) {
 			key++;
 			if(key > 25)	break;
-			run = table[key];
+			run = headTable[key];
 			i--;
 		}
 		else {
-			tiengAnh[i].setString(run->eng);
-			tuLoai[i].setString(run->type);
-			nghia[i].setString(": " + run->meaning);
+			word[i] = run;
 			countReadWord++;
-			run = run->right;
+			run = run->getNext();
+		}
+	}
+	for(int i = countReadWord; i < 7; i++) {
+		word[i] = nullptr;
+	}
+	return countReadWord;
+}
+WordEng HashTable::findFirstWord() { 
+	for(int i = 0; i < hashGroups; i++) {
+		if(headTable[i] != nullptr) {
+			return headTable[i];
 		}
 	}
 }
-void HashTable::randomWord(string &english, string &typ, string &mean) {
+WordEng HashTable::findWord(string eng) {
+	if(eng == "") {
+		return findFirstWord();
+	}
+	
+	int key;
+	WordEng run = new Word;
+	key = hashFunction(eng);
+	run = headTable[key];
+	if(headTable[key] == nullptr) {
+		while(headTable[key++] == nullptr) {
+			if(key > 25) {
+				return nullptr;
+			}
+		}
+		return headTable[key-1];
+	}
+	else {
+		while(run != nullptr && run->getEnglish() < eng) {
+			run = run->getNext();
+		}
+		if(run == nullptr) {
+			while(headTable[key++] == nullptr) {
+				if(key > 25) {
+					return nullptr;
+				}
+			}
+			return headTable[key];
+		}
+		else return run;
+	}
+}
+WordEng HashTable::findLeftWord(WordEng eng) {
+	if(eng->getEnglish() == findFirstWord()->getEnglish()) {
+		return findFirstWord();
+	}
+	
+	if(eng->getPrev() == nullptr) {
+		int key = hashFunction(eng->getEnglish());
+		while(headTable[--key] == nullptr) {
+			if(key < 0)		break;
+		}
+		return tailTable[key];
+	}
+	else {
+		eng->getPrev();
+	}
+}
+WordEng HashTable::findRightWord(WordEng eng) {
+	WordEng tail = new Word;
+	for(int i = hashGroups - 1; i >= 0; i--) {
+		if(tailTable[i] != nullptr) {
+			tail = headTable[i];
+			break;
+		}
+	}
+	if(eng->getEnglish() == tail->getEnglish()) {
+		return tail;
+	}
+	
+	if(eng->getNext() == nullptr) {
+		int key = hashFunction(eng->getEnglish());
+		while(headTable[++key] == nullptr) {
+			if(key > 25)		break;
+		}
+		return headTable[key];
+	}
+	else {
+		return eng->getNext();
+	}
+}
+        
+bool HashTable::insertWord(WordEng word) {
+	int key = hashFunction(word->getEnglish());
+	word->setKey(key);
+	if(headTable[key] == nullptr) {
+		headTable[key] = word;
+		tailTable[key] = word;
+		headTable[key]->setPrev(nullptr);
+		tailTable[key]->setNext(nullptr);
+	}
+	else if(word->getEnglish() < headTable[key]->getEnglish()) {
+		word->setNext(headTable[key]);
+		word->setPrev(nullptr);
+		headTable[key]->setPrev(word);
+		headTable[key] = word;
+	}
+	else {
+		WordEng run = headTable[key];
+		while(run->getEnglish() < word->getEnglish()) {
+			if(run->getNext() == nullptr) {
+				tailTable[key]->setNext(word);
+				word->setNext(nullptr);
+				
+				tailTable[key] = word;
+				countElements[key]++;
+				wordCount++;
+				return true;
+			}
+			run = run->getNext();
+		}
+		if(run->getEnglish() == word->getEnglish())
+			return false;	
+		else {
+			WordEng prev = run->getPrev();
+			word->setNext(run);
+			word->setPrev(prev);
+		}
+	}
+	countElements[key]++;
+	wordCount++;
+	return true;
+}
+void HashTable::removeWord(WordEng word) {
+    int key = hashFunction(word->getEnglish());
+    WordEng head = headTable[key];
+    WordEng tail = tailTable[key];
+    if(head->getEnglish() == word->getEnglish()) {
+    	if(head->getNext() == nullptr) {
+    		headTable[key] = nullptr;
+    		tailTable[key] = nullptr;
+		}
+		else {
+			headTable[key] = headTable[key]->getNext();
+			headTable[key]->setPrev(nullptr);
+		}
+	}
+	else if(tail->getEnglish() == word->getEnglish()) {
+		tail = tailTable[key];
+		tailTable[key] = tailTable[key]->getPrev();
+		tailTable[key]->setNext(nullptr);
+		delete tail;
+	}
+	else {
+		WordEng prev = word->getPrev();
+		WordEng next = word->getNext();
+		prev->setNext(next);
+	}
+	countElements[key]--;
+	wordCount--;
+}
+
+void HashTable::editWord(WordEng oldWord, WordEng newWord) {
+	removeWord(oldWord);
+	insertWord(newWord);
+}
+ 
+int HashTable::getCountWord() {
+	return wordCount;
+}
+
+WordEng HashTable::randomWord() const {
 	srand(time(NULL));
 	int indexTable = 0;
 	do {
@@ -301,15 +278,25 @@ void HashTable::randomWord(string &english, string &typ, string &mean) {
 	} while(countElements[indexTable] == 0);
 	
 	int indexWord = rand() % countElements[indexTable]; // 0 -> countElenmts - 1
-	Word *run = table[indexTable];
+	WordEng run = headTable[indexTable];
 	for(int i = 0; i < indexWord; i++) {
-		run = run->right;
+		run = run->getNext();
 	}
-	english = run->eng;
-	typ = run->type;
-	mean = run->meaning;
+	return run;
 }
 
-
+void HashTable::printTable() {
+	WordEng run = new Word;
+    for (int i = 0; i < hashGroups; i++) {
+		if(countElements[i] != 0){
+			run = headTable[i];
+			for(int j = 0; j < countElements[i]; j++) {
+				cout<<setw(20)<<run->getEnglish()<<setw(15)<<run->getType()<<setw(20)<<run->getMeaning()<<endl;
+           		run = run->getNext();
+			}
+		}
+    }
+    delete run;
+}
 
 
