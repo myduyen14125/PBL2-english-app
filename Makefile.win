@@ -4,12 +4,21 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
+<<<<<<< HEAD
 OBJ      = Word.o Base.o Menu.o About.o HashTable.o Play.o Edit.o View.o Game.o Form.o Score.o Instruction.o
 LINKOBJ  = Word.o Base.o Menu.o About.o HashTable.o Play.o Edit.o View.o Game.o Form.o Score.o Instruction.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -L"F:/SFML-2.4.2/lib" -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"F:/SFML-2.4.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"F:/SFML-2.4.2/include"
 BIN      = PBL2.exe
+=======
+OBJ      = Game.o main.o Menu.o About.o Edit.o View.o Hashtable.o Play.o
+LINKOBJ  = Game.o main.o Menu.o About.o Edit.o View.o Hashtable.o Play.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -L"E:/SFML-2.4.2/lib" -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"E:/SFML-2.4.2/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"E:/SFML-2.4.2/include"
+BIN      = DemoGiaodien.exe
+>>>>>>> 3732847387e0eb00eac0a413d2f1925eaea0c0bc
 CXXFLAGS = $(CXXINCS) -std=c++11
 CFLAGS   = $(INCS) -std=c++11
 RM       = rm.exe -f
