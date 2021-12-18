@@ -39,6 +39,50 @@ Edit::Edit() {
 	spriteSpeakOldWord.setTexture(speak);
 	spriteSpeakOldWord.setScale(0.02, 0.02);
 	spriteSpeakOldWord.setPosition(650, 130);
+	
+	confirmDeleteWordText.setString("Do you want to delete?");
+	confirmDeleteWordText.setFont(font[2]);
+	confirmDeleteWordText.setFillColor(Color::Black);
+	confirmDeleteWordText.setCharacterSize(50);
+	confirmDeleteWordText.setPosition(450, 350);
+	rect = confirmDeleteWordText.getLocalBounds();
+	confirmDeleteWordText.setOrigin(rect.width/2, rect.height/2);
+	
+	blurred_background.setSize(Vector2f(900.f, 900.f));
+	blurred_background.setFillColor(Color(0, 0, 0, 90));
+	
+	bulletin_board_image.loadFromFile("F:\\Project\\Resource\\Image\\Note.png");
+	bulletin_board_rectangle.setSize(Vector2f(900.f, 500.f));
+	bulletin_board_rectangle.setTexture(&bulletin_board_image);
+	bulletin_board_rectangle.setFillColor(Color::White);
+	bulletin_board_rectangle.setPosition(5, 170);
+	
+	confirmDeleteWord.setSize(Vector2f(100.f, 50.f));
+	confirmDeleteWord.setTexture(&button);
+	confirmDeleteWord.setPosition(500, 450);
+	
+	confirmNotDeleteWord.setSize(Vector2f(100.f, 50.f));
+	confirmNotDeleteWord.setTexture(&button);
+	confirmNotDeleteWord.setPosition(300, 450);
+	
+	yes.setString("Yes");
+	yes.setFont(font[2]);
+	yes.setFillColor(Color::Black);
+	yes.setCharacterSize(40);
+	rect = confirmDeleteWord.getLocalBounds();
+	yes.setPosition(confirmDeleteWord.getPosition().x + rect.width/2, confirmDeleteWord.getPosition().y + rect.height/2 - 10);
+	rect = yes.getLocalBounds();
+	yes.setOrigin(rect.width/2, rect.height/2);
+	
+	no.setString("No");
+	no.setFont(font[2]);
+	no.setFillColor(Color::Black);
+	no.setCharacterSize(40);
+	rect = confirmNotDeleteWord.getLocalBounds();
+	no.setPosition(confirmNotDeleteWord.getPosition().x + rect.width/2, confirmNotDeleteWord.getPosition().y + rect.height/2 - 10);
+	rect = no.getLocalBounds();
+	no.setOrigin(rect.width/2, rect.height/2);
+	
 }
 
 Edit::~Edit() {
@@ -64,11 +108,7 @@ int Edit::handle(RenderWindow &window, int keypressed, bool isKeyPressed, HashTa
 			if(table.getCountWord() == 0) { // delete Word
 				return 3;
 			}
-			table.removeWord(oldWord);
-			table.updateFile();
-			if(oldWord->getEnglish() == view.getFirstWordCurrent()->getEnglish()) {
-				view.setFirstWordCurrent(table);
-			}
+			isDeleteWord = true;
 		}
 	}
 	if(buttonAdd.getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y)) {
@@ -88,7 +128,38 @@ int Edit::handle(RenderWindow &window, int keypressed, bool isKeyPressed, HashTa
 	
 
 	if(isView) {
-		if(view.handle(window, keypressed, isKeyPressed, table) == 0) {
+		if(isDeleteWord) {
+			if(confirmDeleteWord.getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y)) {
+				confirmDeleteWord.setTexture(&buttonHover);
+				yes.setFillColor(Color::White);
+				if(Mouse::isButtonPressed(Mouse::Left)) {
+					table.removeWord(oldWord);
+					table.updateFile();
+					if(oldWord->getEnglish() == view.getFirstWordCurrent()->getEnglish()) {
+						view.setFirstWordCurrent(table);
+					}
+					isDeleteWord = false;
+				}
+			}
+			else {
+				yes.setFillColor(Color::Black);
+				confirmDeleteWord.setTexture(&button);
+			}
+			
+			if(confirmNotDeleteWord.getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y)) {
+				confirmNotDeleteWord.setTexture(&buttonHover);
+				no.setFillColor(Color::White);
+				if(Mouse::isButtonPressed(Mouse::Left)) {
+					isDeleteWord = false;
+				}
+			}
+			else {
+				no.setFillColor(Color::Black);
+				confirmNotDeleteWord.setTexture(&button);
+			}
+			
+		}
+		else if(view.handle(window, keypressed, isKeyPressed, table) == 0) {
 			isAddWord = false;
 			isView = true;
 			newWord = new Word;
@@ -209,6 +280,15 @@ void Edit::draw(RenderWindow &window) {
 		view.draw(window);
 		window.draw(buttonAdd);
 		window.draw(textAdd);
+		if(isDeleteWord) {
+			window.draw(blurred_background);
+    		window.draw(bulletin_board_rectangle);
+    		window.draw(confirmDeleteWordText);
+    		window.draw(confirmDeleteWord);
+			window.draw(confirmNotDeleteWord);
+			window.draw(yes);
+			window.draw(no);	
+		}
 	}
 	else {
 		form.draw(window);

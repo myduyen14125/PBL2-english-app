@@ -13,11 +13,7 @@ HashTable::~HashTable() {
 }
 void HashTable::readFile() {
 	ifstream FileIn;
-<<<<<<< HEAD
     FileIn.open("F:\\PBL2-english-app\\Data\\data.txt", ios_base::in);
-=======
-    FileIn.open("E:\\PBL2-english-app\\data.txt", ios_base::in);
->>>>>>> 3732847387e0eb00eac0a413d2f1925eaea0c0bc
     if (FileIn.fail()) {
         cout << "Open file failed!" << endl;
     }
@@ -34,7 +30,6 @@ void HashTable::readFile() {
 }
 void HashTable::updateFile() {
 	ofstream FileOut;
-<<<<<<< HEAD
 	FileOut.open("F:\\PBL2-english-app\\Data\\data.txt", ios::out);
 	WordEng run = new Word;
 	for(int i = 0; i < hashGroups; i++) {
@@ -43,100 +38,6 @@ void HashTable::updateFile() {
 			for(int j = 0; j < countElements[i]; j++) {
 				FileOut<<run->getEnglish()<<"@"<<run->getType()<<"@"<<run->getMeaning()<<"@"<<endl;
            		run = run->getNext();
-=======
-	FileOut.open("E:\\PBL2-english-app\\data.txt", ios::out);
-	while(i < hashGroups)
-	{
-		Word *run = table[i];
-        while(run != nullptr) {
-           	FileOut<<run->eng<<"@"<<run->type<<"@"<<run->meaning<<"@"<<endl;
-           	run = run->right;
-		}
-		i++;
-	}
-	FileOut.close();
-}
-bool HashTable::isEmpty() const {
-    if(wordCount == 0)	return true;
-    else return false;
-}
-
-int HashTable::hashFunction(string eng) { 
-    if (eng != "") {
-        char x = eng[0];
-        if ((x > 96) && (x < 123)) { //Ascii tu a-z
-            return (int)x - 97;
-        }
-    }
-    return -1;
-}
-
-void HashTable::insertWord(string eng, string type, string meaning) {
-	Word* newWord = new Word;
-	newWord->eng = eng;
-	newWord->type = type;
-	newWord->meaning = meaning;
-	newWord->left = nullptr;
-	newWord->right = nullptr;
-    int key = hashFunction(newWord->eng);
-    Word* run  = table[key];
-    
-    if(table[key] == nullptr) {
-    	table[key] = newWord;
-    	table[key]->left = nullptr;
-    	table[key]->right = nullptr;
-	}
-	else if(newWord->eng < run->eng) {
-		newWord->right = run;
-		run->left = newWord;
-		table[key] = newWord;
-	}
-	else {
-		Word* temp;
-		while(run->eng < newWord->eng) {
-			if(run->right == nullptr)	break;
-			run = run->right;
-		}	
-		if(run->eng < newWord->eng && run->right == nullptr) {
-			run->right = newWord;
-			newWord->left = run;
-		}
-		else {
-			temp = run->left;
-			newWord->right = run;
-			newWord->left = temp;
-			temp->right = newWord;
-			run->left = newWord;
-		}
-	}
-	countElements[key]++;
-	wordCount++;
-}
-void HashTable::removeWord(string eng) {
-    int key = hashFunction(eng);
-    if(table[key] == nullptr)
-    	cout<<"Khong ton tai word can xoa"<<endl;
-    else {
-    	Word* run  = table[key];
-    	if(run->eng == eng) {
-    		if(run->right == nullptr) 	run = nullptr;
-			else	run = run->right;
-			table[key] = run;
-		}
-		else {
-			bool check = false;
-			while(run != nullptr) {
-				if(run->right == nullptr) {
-					break;
-				}
-				if(run->right->eng == eng) {
-					run->right = run->right->right;
-					check = true;
-					wordCount--;
-					break;
-				}
-				run = run->right;
->>>>>>> 3732847387e0eb00eac0a413d2f1925eaea0c0bc
 			}
 		}
 	}

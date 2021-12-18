@@ -11,10 +11,12 @@ class Edit: public Base {
 		ViewDictionary view;
 		WordEng oldWord, newWord;
 		
-		RectangleShape buttonAdd;
-		Text textAdd, notification, oldWordText[3], newWordText[3];
+		Texture bulletin_board_image;
+		RectangleShape buttonAdd, bulletin_board_rectangle, blurred_background, confirmDeleteWord, confirmNotDeleteWord;
+		Text textAdd, notification, oldWordText[3], newWordText[3], confirmDeleteWordText, yes, no;
 		Sprite spriteImageNewWord, spriteImageOldWord, spriteSpeakOldWord, spriteSpeakNewWord;
 		
+		bool isDeleteWord = false;
 		bool isAddWord = false;
 		bool isView = true;
 		int checkForm;

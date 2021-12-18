@@ -22,7 +22,7 @@ About::About() {
 	about[3].setString("Sinh vien thuc hien:");
 	about[4].setString("NGUYEN TRAN MY DUYEN  - 102200017");
 	about[5].setString("NGUYEN PHUOC DAI TOAN - 102200035");
-	about[6].setString("Giang vien huong dan: LE THI MY HANH");
+	about[6].setString("Giang vien huong dan: TS. LE THI MY HANH");
 	
 	about[0].setFont(font[3]);
 	about[0].setFillColor(Color::Black);

@@ -7,13 +7,13 @@ class Play: public Base {
 	private:
 		WordEng word[MAX_ITEMS];
 		Sprite spriteImages[MAX_ITEMS], spriteSpeaks[MAX_ITEMS], spriteSpeakPlay, spriteImageWordPlay;
-		Texture heart;
+		Texture heart, bulletin_board_image;
 		Sprite spriteHeart[3];
 		Text inforWord, wordPlay, fill_character;
-		Text textPercent, ready, yes, no;
+		Text textPercent, ready, yes, no, endGame, confirmEndGameText;
 		Text congratulation, bulkhead, totalScoreText, totalScoreInt, continueGame, scorePlayText;
 		Text eng[MAX_ITEMS], type[MAX_ITEMS], meaning[MAX_ITEMS], times[MAX_ITEMS], score[MAX_ITEMS], sub[6], error[4];
-		RectangleShape confirmContinueGame, confirmPlayGame, confirmNotPlayGame;
+		RectangleShape confirmContinueGame, confirmPlayGame, confirmNotPlayGame, confirmEndGame, blurred_background, bulletin_board_rectangle;
 		Music correctMusic, wrongMusic;
 		Time timeSeconds;
 		Clock clock;
@@ -24,6 +24,7 @@ class Play: public Base {
 		bool isCorrect = false;
 		bool isPlayGame = false;
 		bool isEndGame = false;
+		bool isExist = false;
 		
 		string defectWord;
 		string correctWord;
@@ -58,5 +59,4 @@ class Play: public Base {
 		
 		void reset();
 };
-
 #endif

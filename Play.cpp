@@ -13,9 +13,11 @@ void Play::loadResource() {
 		spriteHeart[i].setTexture(heart);
 		spriteHeart[i].setPosition(50 + 40 * i, 30);
 	}
+
 	correctMusic.openFromFile("Resource/Music/WinAnswer.wav");
 	wrongMusic.openFromFile("Resource/Music/WrongAnswer.wav");
 }
+
 void Play::setTextLoadingGame() {
 	textPercent.setFont(font[2]);
 	textPercent.setFillColor(Color::Red);
@@ -61,6 +63,7 @@ void Play::setTextLoadingGame() {
 	scorePlayText.setFillColor(Color::Red);
 	scorePlayText.setPosition(700, 50);
 }
+
 void Play::setTextResult() {
 	congratulation.setFont(font[2]);
 	congratulation.setCharacterSize(35);
@@ -162,9 +165,36 @@ Play::Play() {
 	setTextResult();
 	setTextError();
 	setTextLoadingGame();
+	
+	endGame.setFont(font[2]);
+	endGame.setString("End game");
+	endGame.setCharacterSize(30);
+	endGame.setPosition(700, 800);
+	endGame.setFillColor(Color::Black);
+	confirmEndGame.setSize(Vector2f(150.f, 50.f));
+	confirmEndGame.setTexture(&button);
+	confirmEndGame.setPosition(endGame.getPosition().x - 10, endGame.getPosition().y - 5);
+	
+	blurred_background.setSize(Vector2f(900.f, 900.f));
+	blurred_background.setFillColor(Color(0, 0, 0, 90));
+	
+	bulletin_board_image.loadFromFile("F:\\Project\\Resource\\Image\\Note.png");
+	bulletin_board_rectangle.setSize(Vector2f(900.f, 500.f));
+	bulletin_board_rectangle.setTexture(&bulletin_board_image);
+	bulletin_board_rectangle.setFillColor(Color::White);
+	bulletin_board_rectangle.setPosition(5, 170);
+	
+	confirmEndGameText.setString("Do you want to end game?");
+	confirmEndGameText.setFont(font[2]);
+	confirmEndGameText.setFillColor(Color::Black);
+	confirmEndGameText.setCharacterSize(50);
+	confirmEndGameText.setPosition(450, 350);
+	rect = confirmEndGameText.getLocalBounds();
+	confirmEndGameText.setOrigin(rect.width/2, rect.height/2);
 }
 
 Play::~Play() {
+	
 }
 
 void Play::setWordPlay(const HashTable &table) {
@@ -229,85 +259,132 @@ int Play::handle(RenderWindow &window, int keypressed, bool isKeyPressed, HashTa
 			setWordPlay(table);
 			positionSentences++;
 		}
-		if(isKeyPressed && !isCorrect && countGuess_of_sentences[positionSentences - 1] <= MAX_GUESS) {
-			if(keypressed >= 0 && keypressed <= 25) {
-				if(randomIndex == 0)	defectWord[randomIndex] = keyboard[keypressed] - 32;
-				else defectWord[randomIndex] = keyboard[keypressed];
-				
-				tempFill = "Fill in the space: ";
-				tempFill += keyboard[keypressed];
-				fill_character.setString(tempFill);
-				wordPlay.setString(defectWord);
-				countGuess_of_sentences[positionSentences - 1]++;
-			}
-			else {
-				defectWord[randomIndex] = '_';
-				tempFill = "Fill in the space: ";
-				fill_character.setString(tempFill);
-				wordPlay.setString(defectWord);
-				wordPlay.setFillColor(Color::Black);
-				if(keypressed == 59) {
-					return 1;
-				}
-			}
-			if(defectWord != correctWord){
-				wordPlay.setFillColor(Color::Red);
-				wrongMusic.play();
-				srand(time(NULL));
-				if(countGuess_of_sentences[positionSentences - 1] == MAX_GUESS) {
-					times[positionSentences - 1].setString(to_string(MAX_GUESS) + "/3");
-					times[positionSentences - 1].setFillColor(Color::Red);
-					score_of_sentences[positionSentences - 1] = rand() % 21;
-					score[positionSentences - 1].setString(to_string(score_of_sentences[positionSentences - 1]));
-					totalScore += score_of_sentences[positionSentences - 1];
+		
+		if(!isExist) {
+			if(confirmEndGame.getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y)) {
+				confirmEndGame.setTexture(&buttonHover);
+				endGame.setFillColor(Color::White);
+				if(Mouse::isButtonPressed(Mouse::Left)) {
+					isExist = true;
+					Sleep(100);
 				}
 			}
 			else {
-				isCorrect = true;
-			   	wordPlay.setFillColor(Color(0,128,0));
-			   	correctMusic.play();
-			   	times[positionSentences - 1].setString(to_string(countGuess_of_sentences[positionSentences - 1]) + "/3");
-			   	srand(time(NULL));
-				if(countGuess_of_sentences[positionSentences - 1] == 1) {
-					score_of_sentences[positionSentences - 1] = rand() % 20 + 81;
-				}
-				else if((countGuess_of_sentences[positionSentences - 1] == 2)) {
-					score_of_sentences[positionSentences - 1] = rand() % 40 + 51;
+				confirmEndGame.setTexture(&button);
+				endGame.setFillColor(Color::Black);
+			}
+			if(isKeyPressed && !isCorrect && countGuess_of_sentences[positionSentences - 1] <= MAX_GUESS) {
+				if(keypressed >= 0 && keypressed <= 25) {
+					if(randomIndex == 0)	defectWord[randomIndex] = keyboard[keypressed] - 32;
+					else defectWord[randomIndex] = keyboard[keypressed];
+					
+					tempFill = "Fill in the space: ";
+					tempFill += keyboard[keypressed];
+					fill_character.setString(tempFill);
+					wordPlay.setString(defectWord);
+					countGuess_of_sentences[positionSentences - 1]++;
 				}
 				else {
-					score_of_sentences[positionSentences - 1] = rand() % 60 + 21;
+					defectWord[randomIndex] = '_';
+					tempFill = "Fill in the space: ";
+					fill_character.setString(tempFill);
+					wordPlay.setString(defectWord);
+					wordPlay.setFillColor(Color::Black);
+					if(keypressed == 59) {
+						return 1;
+					}
 				}
-				
-				scorePlayText.setString("Score: " + to_string(score_of_sentences[positionSentences - 1]));
-				score[positionSentences - 1].setString(to_string(score_of_sentences[positionSentences - 1]));
-				totalScore += score_of_sentences[positionSentences - 1];
-			    word[positionSentences - 1]->playMusic();
-			    
-			    number_of_correct_sentences++;
-			    return 1;
-			}		
+				if(defectWord != correctWord) {
+					wordPlay.setFillColor(Color::Red);
+					wrongMusic.play();
+					srand(time(NULL));
+					if(countGuess_of_sentences[positionSentences - 1] == MAX_GUESS) {
+						times[positionSentences - 1].setString(to_string(MAX_GUESS) + "/3");
+						times[positionSentences - 1].setFillColor(Color::Red);
+						score_of_sentences[positionSentences - 1] = rand() % 21;
+						score[positionSentences - 1].setString(to_string(score_of_sentences[positionSentences - 1]));
+						totalScore += score_of_sentences[positionSentences - 1];
+					}
+				}
+				else {
+					isCorrect = true;
+				   	wordPlay.setFillColor(Color(0,128,0));
+				   	correctMusic.play();
+				   	times[positionSentences - 1].setString(to_string(countGuess_of_sentences[positionSentences - 1]) + "/3");
+				   	srand(time(NULL));
+				   	if(countGuess_of_sentences[positionSentences - 1] == 0) {
+				   		score_of_sentences[positionSentences - 1] = 0;
+					}
+					else if(countGuess_of_sentences[positionSentences - 1] == 1) {
+						score_of_sentences[positionSentences - 1] = rand() % 20 + 81;
+					}
+					else if((countGuess_of_sentences[positionSentences - 1] == 2)) {
+						score_of_sentences[positionSentences - 1] = rand() % 40 + 51;
+					}
+					else if((countGuess_of_sentences[positionSentences - 1] == 3)){
+						score_of_sentences[positionSentences - 1] = rand() % 60 + 21;
+					}
+					
+					scorePlayText.setString("Score: " + to_string(score_of_sentences[positionSentences - 1]));
+					score[positionSentences - 1].setString(to_string(score_of_sentences[positionSentences - 1]));
+					totalScore += score_of_sentences[positionSentences - 1];
+				    word[positionSentences - 1]->playMusic();
+				    
+				    number_of_correct_sentences++;
+				    return 1;
+				}		
+			}
+			if(spriteSpeakPlay.getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y) && isCorrect) {
+		        spriteSpeakPlay.setTexture(speakHover);
+		        if(Mouse::isButtonPressed(Mouse::Left))    	word[positionSentences - 1]->playMusic();	
+			}
+			else spriteSpeakPlay.setTexture(speak);	
 		}
-		if(spriteSpeakPlay.getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y) && isCorrect) {
-	        spriteSpeakPlay.setTexture(speakHover);
-	        if(Mouse::isButtonPressed(Mouse::Left))    	word[positionSentences - 1]->playMusic();	
+		else {
+			if(confirmPlayGame.getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y)) {
+				confirmPlayGame.setTexture(&buttonHover);
+				yes.setFillColor(Color::White);
+				if(Mouse::isButtonPressed(Mouse::Left)) {
+					isEndGame = true;
+					isPlayGame = false;
+					isExist = false;
+				}
+			}
+			else {
+				yes.setFillColor(Color::Black);
+				confirmPlayGame.setTexture(&button);
+			}
+			
+			if(confirmNotPlayGame.getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y)) {
+				confirmNotPlayGame.setTexture(&buttonHover);
+				no.setFillColor(Color::White);
+				if(Mouse::isButtonPressed(Mouse::Left)) {
+					isPlayGame = true;
+					isEndGame = false;
+					isExist = false;
+				}
+			}
+			else {
+				no.setFillColor(Color::Black);
+				confirmNotPlayGame.setTexture(&button);
+			}
 		}
-		else spriteSpeakPlay.setTexture(speak);	
 	}
-	else if(isEndGame){
+	else if(isEndGame) {
 		totalScoreInt.setString(to_string(totalScore));
-		if(number_of_correct_sentences >=4) {
-			congratulation.setString("Congratulations! You answered correctly "+ to_string(number_of_correct_sentences) + "/7 words!");
+		if(number_of_correct_sentences >= positionSentences/2 + 1) {
+			congratulation.setString("Congratulations! You answered correctly " + to_string(number_of_correct_sentences) + "/" + to_string(positionSentences) + " words!");                            
 			congratulation.setFillColor(Color(0, 128, 0));
 		}
 		else {
-			congratulation.setString("Try your best! You answered correctly "+ to_string(number_of_correct_sentences) + "/7 words!");
+			congratulation.setString("Try your best! You answered correctly " + to_string(number_of_correct_sentences) + "/" + to_string(positionSentences) + " words!");
 			congratulation.setFillColor(Color::Red);
 		}
 		rect = congratulation.getLocalBounds();
 		congratulation.setOrigin(rect.width/2, rect.height/2);
 		congratulation.setPosition(450, 60);
 		
-		if(confirmContinueGame.getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y)){
+		if(confirmContinueGame.getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y)) {
 			confirmContinueGame.setTexture(&buttonHover);
 			continueGame.setFillColor(Color::White);
 			if(Mouse::isButtonPressed(Mouse::Left)) {
@@ -356,7 +433,7 @@ int Play::handle(RenderWindow &window, int keypressed, bool isKeyPressed, HashTa
 		Sleep(30);
 		percent++;
 	}
-	if(percent == 101 && initial == 0) {
+	else if(percent == 101 && initial == 0) {
 		if(confirmPlayGame.getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y)) {
 			confirmPlayGame.setTexture(&buttonHover);
 			yes.setFillColor(Color::White);
@@ -394,7 +471,18 @@ void Play::draw(RenderWindow &window) {
 		return;
 	}
 	if(!isPlayGame && !isEndGame)	drawLoadingGame(window);
-    else if(isPlayGame)		drawPlayGame(window);
+    else if(isPlayGame) {
+    	drawPlayGame(window);
+    	if(isExist) {
+    		window.draw(blurred_background);
+    		window.draw(bulletin_board_rectangle);
+    		window.draw(confirmEndGameText);
+    		window.draw(confirmPlayGame);
+			window.draw(confirmNotPlayGame);
+			window.draw(yes);
+			window.draw(no);	
+		}
+	}
 	else	drawEndGame(window);
 }
 void Play::drawErrorGame(RenderWindow &window) {
@@ -415,18 +503,21 @@ void Play::drawLoadingGame(RenderWindow &window) {
 void Play::drawPlayGame(RenderWindow &window) {
 	window.draw(fill_character);
     window.draw(wordPlay);
-    for(int i = 0; i < 3 - countGuess_of_sentences[positionSentences - 1]; i++) {
-    	window.draw(spriteHeart[i]);
-	}
+    window.draw(confirmEndGame);
+    window.draw(endGame);
+    for(int i = 0; i < 3 - countGuess_of_sentences[positionSentences - 1]; i++) 	window.draw(spriteHeart[i]);
+		
     if(isCorrect) {
         window.draw(inforWord);
         window.draw(spriteSpeakPlay);
         window.draw(scorePlayText);
 	}
+	
 	if((isCorrect || countGuess_of_sentences[positionSentences - 1] == MAX_GUESS) && !isResetClock) {
 		clock.restart();
 		isResetClock = true;
 	}
+	
 	if(isResetClock) {
 		timeSeconds = clock.getElapsedTime();
 		if(timeSeconds.asSeconds() > 3) {
@@ -445,7 +536,7 @@ void Play::drawEndGame(RenderWindow &window) {
 	window.draw(spriteArrow);
 	window.draw(congratulation);
     for(int i = 0; i < 6; i++) 		window.draw(sub[i]);
-    for(int i = 0; i < MAX_ITEMS; i++) {
+    for(int i = 0; i < positionSentences; i++) {
        	window.draw(eng[i]);
        	window.draw(type[i]);
        	window.draw(meaning[i]);

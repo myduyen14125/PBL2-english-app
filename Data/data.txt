@@ -1,5 +1,4 @@
 abacus@Noun@Ban tinh@
-b@C@A@
 bell@Noun@Cai chuong@
 camera@Noun@May anh@
 chair@Noun@Cai ghe@
