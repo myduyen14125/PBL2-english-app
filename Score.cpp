@@ -83,7 +83,7 @@ void Score::draw(RenderWindow &window) {
 
 void Score::readFileScore() {
 	ifstream FileIn;
-	FileIn.open("F:\\PBL2-english-app\\Data\\score.txt", ios_base::in);
+	FileIn.open("E:\\PBL2-english-app\\Data\\score.txt", ios_base::in);
 	if (FileIn.fail()) {
         cout << "Open file failed!" << endl;
     }
@@ -205,7 +205,7 @@ void Score::updateHistory(int scorePlay) {
 
 void Score::updateFileScore() {
 	ofstream FileOut;
-	FileOut.open("F:\\PBL2-english-app\\Data\\score.txt", ios::out);
+	FileOut.open("E:\\PBL2-english-app\\Data\\score.txt", ios::out);
 	string totalString = totalScore.getString();
 	FileOut<<totalString<<endl;	
 	for(int i = partition; i < sizeFile; i++) {

@@ -13,7 +13,11 @@ HashTable::~HashTable() {
 }
 void HashTable::readFile() {
 	ifstream FileIn;
+<<<<<<< HEAD
     FileIn.open("F:\\PBL2-english-app\\Data\\data.txt", ios_base::in);
+=======
+    FileIn.open("E:\\PBL2-english-app\\Data\\data.txt", ios_base::in);
+>>>>>>> d52aa4499a9a3b23476bb76cad887b0d8f4960e0
     if (FileIn.fail()) {
         cout << "Open file failed!" << endl;
     }
@@ -30,7 +34,11 @@ void HashTable::readFile() {
 }
 void HashTable::updateFile() {
 	ofstream FileOut;
+<<<<<<< HEAD
 	FileOut.open("F:\\PBL2-english-app\\Data\\data.txt", ios::out);
+=======
+	FileOut.open("E:\\PBL2-english-app\\Data\\data.txt", ios::out);
+>>>>>>> d52aa4499a9a3b23476bb76cad887b0d8f4960e0
 	WordEng run = new Word;
 	for(int i = 0; i < hashGroups; i++) {
 		if(headTable[i] != nullptr) {

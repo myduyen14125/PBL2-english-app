@@ -6,9 +6,15 @@ CC       = gcc.exe
 WINDRES  = windres.exe
 OBJ      = Word.o Base.o Menu.o About.o HashTable.o Play.o Edit.o View.o Game.o Form.o Score.o Instruction.o
 LINKOBJ  = Word.o Base.o Menu.o About.o HashTable.o Play.o Edit.o View.o Game.o Form.o Score.o Instruction.o
+<<<<<<< HEAD
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -L"F:/SFML-2.4.2/lib" -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"F:/SFML-2.4.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"F:/SFML-2.4.2/include"
+=======
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -L"E:/SFML-2.4.2/lib" -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"E:/SFML-2.4.2/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"E:/SFML-2.4.2/include"
+>>>>>>> d52aa4499a9a3b23476bb76cad887b0d8f4960e0
 BIN      = PBL2.exe
 CXXFLAGS = $(CXXINCS) -std=c++11
 CFLAGS   = $(INCS) -std=c++11
